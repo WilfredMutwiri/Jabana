@@ -6,7 +6,7 @@ import profilePic from '../images/c42342e7743a6b9de0a54a599a591043.jpg'
 import { FaDatabase } from "react-icons/fa6";
 import { GiLovers } from "react-icons/gi";
 import { MdMenu } from "react-icons/md";
-
+import { useSelector,useDispatch } from 'react-redux';
 
 import { useRef, useState } from "react";
 
@@ -17,6 +17,8 @@ import UpdatePage from "./UpdatePage";
 import { Button } from "flowbite-react";
 import { Link } from "react-router-dom";
 export default function AdminDashboard() {
+    const dispatch=useDispatch();
+    const {currentUser}=useSelector(state=>state.user)
     const [visibleSection,setVisibleSection]=useState('updatePage')
     const [menuVisible,setMenuVisible]=useState(true)
     const handleRevealMenu=()=>{
@@ -33,7 +35,7 @@ export default function AdminDashboard() {
             <hr />
             <div className=" w-full overflow-hidden ">
             <div className="flex justify-between">
-            <div className="flex md:hidden bg-gray-200 w-full">
+            <div className="flex md:hidden w-full">
                 <MdMenu className="text-3xl text-black block md:hidden" onClick={handleRevealMenu}/>
             </div>
             </div>
@@ -45,7 +47,8 @@ export default function AdminDashboard() {
                     <div>
                         <img className='h-36 rounded-full mx-auto' src={profilePic} alt="profilePic"/>
                     </div>
-                    <h2 className='text-center p-3'>Admin <span className='text-pink-500'>@Mark</span></h2>
+                    <h2 className='text-center p-3'>Admin <span className='text-pink-500'>@ {
+                    currentUser ? currentUser.userName:'Mark'}</span></h2>
                     <div className='pt-4'>
                         <ul className='flex flex-col gap-5 text-center'>
                             <li onClick={()=>showSection('updatePage')} className='p-2 hover:bg-gray-100 rounded-md text-orange-500 hover:text-pink-500 cursor-pointer flex gap-3'><span><FaDatabase className="text-xl"/></span>School Database</li>

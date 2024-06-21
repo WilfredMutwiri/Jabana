@@ -8,6 +8,8 @@ export default function signup() {
   const [formData,setFormData]=useState({});
   const [loading,setLoading]=useState(false);
   const [errorMessage,setErrorMessage]=useState(null);
+  const [successMessage,setSuccessMessage]=useState(false);
+
 
   const Navigate=useNavigate();
 
@@ -21,6 +23,7 @@ export default function signup() {
       }
       try {
           setErrorMessage(null);
+          setSuccessMessage(false);
           setLoading(true);
           const res=await fetch(SERVER_URL+'/api/auth/signup',{
               method:"POST",
@@ -31,16 +34,24 @@ export default function signup() {
           if (!contentType || !contentType.includes("application/json")) {
               throw new Error("Server response is not in JSON format");
           }
-          
           const data=await res.json();
-          console.log(data);
+          if(data.success==false){
+            return setErrorMessage(error.message)
+          }
+          setLoading(false)
+          if(data){
+            setSuccessMessage(true)
+            setSuccessMessage("Account Created Successfully!");
+          }
           if(res.ok){
-              Navigate('/login')
+            setSuccessMessage(true)
+            setSuccessMessage("Account Created Successfully!");
+            Navigate('/signIn')
           }
       } catch (error) {
           setErrorMessage(error.message);
+          setSuccessMessage(false);
           setLoading(false);
-          console.log(error.message);
       }
   }
     return (
@@ -102,6 +113,12 @@ export default function signup() {
                     errorMessage &&
                     <Alert color="failure" className='mt-5'>
                         {errorMessage}
+                    </Alert>
+                }
+                {
+                    successMessage &&
+                    <Alert color="success" className='mt-5'>
+                        {successMessage}
                     </Alert>
                 }
                 </div>

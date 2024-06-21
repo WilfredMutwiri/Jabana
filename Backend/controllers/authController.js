@@ -9,13 +9,21 @@ const signup=async(req,res,next)=>{
         !userName ||
         !email ||
         !password ||
-        userName===""||
-        email===""||
-        password===""
+        userName==="" ||
+        email==="" ||
+        password=== ""
     ){
         next(errorHandler(400,"All fields must be filled"))
     }
     try {
+        const existingUser=await User.findOne({userName});
+        if(existingUser){
+            next(errorHandler(400,"userName already in use"))
+        }
+        const existingEmail=await User.findOne({email});
+        if(existingEmail){
+            next(errorHandler(400,"Email already exists"))
+        }
         const hashPassword=bcryptjs.hashSync(password,10);
         const newUser=new User({
             userName,
