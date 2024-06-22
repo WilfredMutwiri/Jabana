@@ -4,7 +4,7 @@ import {SERVER_URL} from '../constants/SERVER_URL'
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom'
 
-export default function Signup() {
+export default function signup() {
   const [formData,setFormData]=useState({});
   const [loading,setLoading]=useState(false);
   const [errorMessage,setErrorMessage]=useState(null);
