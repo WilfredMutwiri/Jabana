@@ -107,7 +107,7 @@ export default function signup() {
                         </Button>
                     </form>
                     <p className='pt-3 text-sm'>
-                        Already have an account? <span className='text-blue-600'><a href='/signin'>Login</a></span>
+                        Already have an account? <span className='text-blue-600'><a href='/Signin'>Login</a></span>
                     </p>
                     {
                     errorMessage &&
