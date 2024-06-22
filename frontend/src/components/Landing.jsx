@@ -12,7 +12,7 @@ export default function Landing() {
                 <img className="w-80  mx-auto" src="https://i.pinimg.com/originals/d8/d0/26/d8d026086d1857007558e3f350ee6ea4.gif"/>
             </div>
             <h3 className="text-center font-semibold text-sm">Its that simple...</h3>
-            <Link to="/signIn">
+            <Link to="/SignIn">
             <Button className="mx-auto w-56 mt-4">Get Started</Button>
             </Link>
             </div>
