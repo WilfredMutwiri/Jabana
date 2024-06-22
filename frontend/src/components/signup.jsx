@@ -4,7 +4,7 @@ import {SERVER_URL} from '../constants/SERVER_URL'
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom'
 
-export default function signup() {
+export default function Signup() {
   const [formData,setFormData]=useState({});
   const [loading,setLoading]=useState(false);
   const [errorMessage,setErrorMessage]=useState(null);
@@ -36,6 +36,7 @@ export default function signup() {
           }
           const data=await res.json();
           if(data.success==false){
+            console.log("signup failed");
             return setErrorMessage(error.message)
           }
           setLoading(false)
@@ -47,6 +48,7 @@ export default function signup() {
             setSuccessMessage(true)
             setSuccessMessage("Account Created Successfully!");
             Navigate('/signIn')
+            console.log("signup successful");
           }
       } catch (error) {
           setErrorMessage(error.message);
