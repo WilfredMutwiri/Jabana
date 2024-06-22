@@ -114,7 +114,7 @@ export default function SignIn(){
                         </Alert>
                     }
                     <p className='pt-3 text-sm'>
-                        Don't have an account? <span className='text-blue-600'><a href='/Signup'>Create Account</a></span>
+                        Don't have an account? <span className='text-blue-600'><a href='/signup'>Create Account</a></span>
                     </p>
                 </div>
             </div>
