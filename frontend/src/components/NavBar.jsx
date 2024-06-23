@@ -2,7 +2,8 @@ import React from 'react';
 "use client";
 import { Button, Navbar } from "flowbite-react";
 import { useSelector,useDispatch } from 'react-redux';
-import logoImg from '../images/c42342e7743a6b9de0a54a599a591043.jpg'
+import { Link } from 'react-router-dom';
+import { FaRegCircleUser } from "react-icons/fa6";
 
 export default function NavBar() {
   const dispatch=useDispatch();
@@ -16,16 +17,18 @@ export default function NavBar() {
         </div>
       </Navbar.Brand>
       <div className="block md:order-2  text-lg font-semibold text-pink-700  text-center">
-        <div className='flex'>
+        <div className='flex gap-2'>
         <div>
         {
-        currentUser ? <img className='w-11 mr-2 rounded-full' src={logoImg}/> : ""
+        currentUser ? <FaRegCircleUser className='text-2xl text-cyan-800'/> : ""
       }
         </div>
         <div>
         {
           currentUser ? currentUser.userName :
+          <Link to="SignIn">
           <Button gradientDuoTone="pinkToOrange">Login</Button>
+          </Link>
         }
         </div>
         </div>

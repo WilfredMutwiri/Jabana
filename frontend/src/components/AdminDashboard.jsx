@@ -2,7 +2,7 @@ import React from 'react'
 import { IoMdClose } from "react-icons/io";
 import { GrUserWorker } from "react-icons/gr";
 import { FaUsers } from "react-icons/fa";
-import profilePic from '../images/c42342e7743a6b9de0a54a599a591043.jpg'
+import profilePic from '../images/userprofile.jpg'
 import { FaDatabase } from "react-icons/fa6";
 import { GiLovers } from "react-icons/gi";
 import { MdMenu } from "react-icons/md";
@@ -45,7 +45,7 @@ export default function AdminDashboard() {
                     {/* left section */}
                 <div className={`-mt-7  bg-gray-200 rounded-md p-4 shadow-sm shadow-pink-5x00 w-auto mb-5 md:mb-0 ${menuVisible ? 'block':'hidden'}`}>
                     <div>
-                        <img className='h-36 rounded-full mx-auto' src={profilePic} alt="profilePic"/>
+                        <img className='h-36 w-auto rounded-full mx-auto' src={profilePic} alt="profilePic"/>
                     </div>
                     <h2 className='text-center p-3'>Admin <span className='text-pink-500'>@ {
                     currentUser ? currentUser.userName:'Mark'}</span></h2>
