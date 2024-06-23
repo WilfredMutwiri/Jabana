@@ -3,6 +3,7 @@ const mongoose=require('mongoose')
 const cors=require('cors')
 const dotenv=require('dotenv').config()
 const authRoutes=require('./Routes/authRoutes')
+const usersRoutes=require('./Routes/usersRoutes')
 
 const app=express();
 app.use(express.json());
@@ -21,3 +22,4 @@ mongoose.connect(process.env.MONGO_URL)
 
 // test api
 app.use('/api/auth',authRoutes)
+app.use('/api/users',usersRoutes)
