@@ -56,7 +56,7 @@ export default function SignIn(){
   return (
         <div className="w-full">
             <hr/>
-            <div className="block md:flex w-10/12 pt-20 m-auto gap-5">
+            <div className="block md:flex w-10/12 pt-10 md:pt-20 m-auto gap-5">
                 <div className='flex-1'>
                 <div className="flex p-3">
                 <span className="text-orange-500 text-2xl bg-black p-2 rounded-md">J</span>
@@ -67,7 +67,7 @@ export default function SignIn(){
                     Login today with your email and password to get access to enjoy our services!
                 </p>
                 </div>
-                <div className='flex-1'>
+                <div className='flex-1 mt-5 md:mt-0'>
                     <form className='flex flex-col gap-3' onSubmit={handleSubmit}>
                         <Label value='Your Username'/>
 

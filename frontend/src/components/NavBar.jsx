@@ -10,6 +10,7 @@ export default function NavBar() {
   const {currentUser}=useSelector(state=>state.user)
   return (
     <Navbar fluid rounded>
+      <div className='w-full flex justify-between'>
       <Navbar.Brand>
       <div className="flex p-3">
         <span className="text-orange-500 text-2xl bg-black p-1 rounded-md">J</span>
@@ -17,7 +18,7 @@ export default function NavBar() {
         </div>
       </Navbar.Brand>
       <div className="block md:order-2  text-lg font-semibold text-pink-700  text-center">
-        <div className='flex gap-2'>
+        <div className='flex gap-2 mt-4'>
         <div>
         {
         currentUser ? <FaRegCircleUser className='text-2xl text-cyan-800'/> : ""
@@ -32,6 +33,7 @@ export default function NavBar() {
         }
         </div>
         </div>
+      </div>
       </div>
       <hr/>
     </Navbar>
