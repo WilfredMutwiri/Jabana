@@ -21,6 +21,20 @@ const userSlice=createSlice({
         signInFailure:(state,action)=>{
             state.loading=false;
             state.error=action.payload
+        },
+        // adding teacher reducers
+        addTeacherStart:(state)=>{
+            state.loading=true,
+            state.error=null
+        },
+        addTeacherSuccess:(state,action)=>{
+            state.loading=false,
+            state.error=null,
+            state.currentTeacher=action.payload
+        },
+        addTeacherFailure:(state,action)=>{
+            state.loading=false,
+            state.error=action.payload
         }
     }
 })
@@ -28,7 +42,10 @@ const userSlice=createSlice({
 export const{
     signInStart,
     signInSuccess,
-    signInFailure
+    signInFailure,
+    addTeacherStart,
+    addTeacherSuccess,
+    addTeacherFailure
 }=userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,9 +1,11 @@
-import React from 'react'
-import { Button } from "flowbite-react";
+import React, { useEffect } from 'react'
+import { Alert, Button, Spinner } from "flowbite-react";
 import TeachersUpdate from "./DatabaseUpdate/TeachersUpdate";
 import { useState,useRef } from "react";
 import ParentsUpdate from "./DatabaseUpdate/ParentsUpdate";
 import WorkersUpdate from "./DatabaseUpdate/WorkersUpdate";
+import { useSelector,useDispatch} from 'react-redux';
+import { fetchTeachers } from '../../Redux/User/teacherSlice';
 
 export default function UpdatePage() {
     const [visibleSection,setVisibleSection]=useState('dashboard')
@@ -14,6 +16,13 @@ export default function UpdatePage() {
     const teachersDivRef=useRef(null);
     const parentsDivRef=useRef(null);
     const workersDivRef=useRef(null)
+
+    const dispatch=useDispatch()
+    const {teachers,loading,error}=useSelector(state=>state.teacher)
+
+    useEffect(()=>{
+        dispatch(fetchTeachers());
+    },[dispatch])
 
     const showSection=(section)=>{
         setVisibleSection(section)
@@ -45,26 +54,42 @@ export default function UpdatePage() {
     return (
         <div>
             <div className={visibleSection==='dashboard'?'':'hidden'}>
-            <div className="w-full block md:grid grid-cols-3 gap-4 mt-4">
+            <div className="w-full block gap-4 mt-4">
             {/* Teachers div */}
             <div className={`bg-gray-50 p-1 rounded-md`} ref={teachersDivRef}>
                 <h2 className="p-2 text-center text-lg text-pink-700">Available Teachers</h2>
                 <hr />
                 <div>
-                    <ul className="flex flex-col gap-2">
-                        <li>John Kamau <span>+2547 00 000 000</span></li>
-                        <li>Gladys Pendo <span>+2547 00 000 000</span></li>
-                        <li>MaryLine Mwende <span>+2547 00 000 000</span></li>
-                        <li>Elphas Muchui <span>+2547 00 000 000</span></li>
-                        <li>James Kinuthia <span>+2547 00 000 000</span></li>
-                        <li>Elvis Mwendwa <span>+2547 00 000 000</span></li>
+                    <ul className="flex flex-col gap-4 p-3">
+                        {teachers && teachers.map((teacher) => (
+                            <li className='block gap-4 md:flex justify-between' key={teacher._id}>
+                                <h2>{teacher.fullName}</h2>
+                                <h3 className='text-cyan-700'>{teacher.email}</h3>
+                                <h3 className='text-pink-700'>{teacher.phoneNo}</h3>
+                            </li>
+                        ))}
                     </ul>
-                    <Button className="w-full mt-3" gradientDuoTone="pinkToOrange" outline>Show More</Button>
-                    <Button onClick={()=>showSection('teachers')} className="w-full mt-2" gradientDuoTone="pinkToOrange" outline>Add New Teacher</Button>
+                    <div className="bg-gray-300 p-3 mt-4">
+                        <div className="w-10/12 mx-auto mt-3">
+                        <Button className='mx-auto w-full'  gradientDuoTone="pinkToOrange" outline>Show More</Button>
+                        </div>
+                        <div className="w-10/12 mx-auto mt-3">
+                        <Button className='mx-auto w-full' onClick={()=>showSection('teachers')} gradientDuoTone="pinkToOrange" outline>Add New Teacher</Button>
+                        </div>
+                        {loading && 
+                        <>
+                        <Spinner size="sm"/>
+                        <span className='ml-3'>Loading..</span>
+                        </>
+                        }
+                        {
+                        error && <Alert className='mt-4' color="failure">{error}</Alert>
+                        }
+                    </div>
                 </div>
             </div>
             {/* parents div */}
-            <div className={`bg-gray-50 p-1 rounded-md hidden md:block`} ref={parentsDivRef}>
+            <div className={`bg-gray-50 p-1 rounded-md hidden`} ref={parentsDivRef}>
                 <h2 className="p-2 text-center text-lg text-pink-700">Available Student's Parents</h2>
                 <hr />
                 <div>
@@ -76,12 +101,14 @@ export default function UpdatePage() {
                         <li>Elisha Juma<span>+2547 00 000 000</span></li>
                         <li>Johnson Mwendwa<span>+2547 00 000 000</span></li>
                     </ul>
-                    <Button className="w-full mt-3" gradientDuoTone="pinkToOrange" outline>Show More</Button>
-                    <Button onClick={()=>showSection('parents')} className="w-full mt-2" gradientDuoTone="pinkToOrange" outline>Add New Parent</Button>
+                    <div className="bg-gray-300 p-3 mt-4">
+                    <Button className="w-[500px] mx-auto mt-3" gradientDuoTone="pinkToOrange" outline>Show More</Button>
+                    <Button onClick={()=>showSection('parents')} className="w-[500px] mx-auto mt-2" gradientDuoTone="pinkToOrange" outline>Add New Parent</Button>
+                    </div>
                 </div>
             </div>
             {/* workers div */}
-            <div className={`bg-gray-50 p-1 rounded-md hidden md:block`} ref={workersDivRef}>
+            <div className={`bg-gray-50 p-1 rounded-md hidden`} ref={workersDivRef}>
                 <h2 className="p-2 text-center text-lg text-pink-700">Available Workers</h2>
                 <hr />
                 <div>
@@ -93,12 +120,14 @@ export default function UpdatePage() {
                         <li>Paul Mutisya<span>+2547 00 000 000</span></li>
                         <li>Omondi Jack<span>+2547 00 000 000</span></li>
                     </ul>
-                    <Button className="w-full mt-3" gradientDuoTone="pinkToOrange" outline>Show More</Button>
-                    <Button onClick={()=>showSection('workers')} className="w-full mt-2" gradientDuoTone="pinkToOrange" outline>Add New Worker</Button>
+                    <div className="bg-gray-300 p-3 mt-4">
+                    <Button className="w-[500px] mx-auto mt-3" gradientDuoTone="pinkToOrange" outline>Show More</Button>
+                    <Button onClick={()=>showSection('workers')} className="w-[500px] mx-auto mt-2" gradientDuoTone="pinkToOrange" outline>Add New Worker</Button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div className="flex md:hidden gap-3 mt-5">
+        <div className="flex gap-3 mt-5">
             <hr />
             <Button onClick={revealTeachers} ref={teachersBtnRef}>Teachers</Button>
             <Button onClick={revealParents} ref={parentsBtnRef}>Parents</Button>

@@ -1,5 +1,5 @@
 const Teacher=require('../models/teachersModel');
-const {errorHandler}=require('../utils/errorHandler');
+// const {errorHandler}=require('../utils/errorHandler');
 
 const addTeacher=async(req,res,next)=>{
     const {fullName,email,phoneNo}=req.body;
@@ -11,12 +11,15 @@ const addTeacher=async(req,res,next)=>{
         email===""||
         phoneNo===""
     ){
-        next(errorHandler(400,"Kindly fill all fields"))
+        console.log("Kindly add all fields");
+        return res.status(400).json({success:false, message:"All fields must be filed"})
+        // next(errorHandler(400,"Kindly fill all fields"))
     }
     try {
         const existingTeacher=await Teacher.findOne({fullName})
         if(existingTeacher){
-            next(errorHandler(400,"Teacher already exists"))
+            return res.status(400).json({success:false,message:"Teacher already exists"})
+            // next(errorHandler(400,"Teacher already exists"))
         }
         const newTeacher=new Teacher({
             fullName,
@@ -24,12 +27,25 @@ const addTeacher=async(req,res,next)=>{
             phoneNo
         })
         await newTeacher.save()
-        res.status(400).json({message:"New Teacher Added Successfully"})
+        return res.status(200).json({success:true,message:"New Teacher Added Successfully"})
     } catch (error) {
-        res.status(500).json({message:error.message})
+        console.log("Error adding teacher");
+        res.status(500).json({success:false,message:error.message})
+    }
+}
+
+const getTeachers=async(req,res,next)=>{
+    try {
+        const teachers=await Teacher.find();
+        return res.status(200).json(teachers);
+    } catch (error) {
+        console.log("can't fetch teachers");
+        return res.status(500).json({message:error.message})
+        
     }
 }
 
 module.exports={
-    addTeacher
+    addTeacher,
+    getTeachers
 }

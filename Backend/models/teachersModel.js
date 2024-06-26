@@ -15,6 +15,14 @@ const teacherSchema=new mongoose.Schema({
         required:true,
         unique:true
     }
+    // gender:{
+    //     type:String,
+    //     required:true
+    // },
+    // status:{
+    //     type:String,
+    //     required:true
+    // }
 },{timestamps:true});
 
 const Teacher=mongoose.model("Teacher",teacherSchema);
