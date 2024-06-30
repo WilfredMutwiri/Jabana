@@ -1,5 +1,5 @@
 const mongoose=require('mongoose')
-const teacherSchema=new mongoose.Schema({
+const workerSchema=new mongoose.Schema({
     fullName:{
         type:String,
         required:true,
@@ -14,8 +14,15 @@ const teacherSchema=new mongoose.Schema({
         type:String,
         required:true,
         unique:true
+    },
+    Department:{
+        type:{
+            type:String,
+            required:true,
+            unique:true
+        }
     }
 },{timestamps:true});
 
-const Teacher=mongoose.model("Teacher",teacherSchema);
-module.exports=Teacher;
+const Worker=mongoose.model("Worker",workerSchema);
+module.exports=Worker;

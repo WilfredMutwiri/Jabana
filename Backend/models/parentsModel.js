@@ -1,5 +1,5 @@
 const mongoose=require('mongoose')
-const teacherSchema=new mongoose.Schema({
+const parentSchema=new mongoose.Schema({
     fullName:{
         type:String,
         required:true,
@@ -14,8 +14,18 @@ const teacherSchema=new mongoose.Schema({
         type:String,
         required:true,
         unique:true
+    },
+    studentName:{
+        type:String,
+        required:true,
+        unique:true
+    },
+    studentAdmNo:{
+        type:String,
+        required:true,
+        unique:true
     }
 },{timestamps:true});
 
-const Teacher=mongoose.model("Teacher",teacherSchema);
-module.exports=Teacher;
+const Parent=mongoose.model("Parent",parentSchema);
+module.exports=Parent;
