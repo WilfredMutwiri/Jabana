@@ -15,7 +15,7 @@ const addParent=async(req,res,next)=>{
         studentName==="" ||
         !studentAdmNo===""
     ){
-        console.log("Kindly fill allfields");
+        console.log("Kindly fill all fields");
         return res.status(400).json({success:false, message:"All fields must be filed"})
         // next(errorHandler(400,"Kindly fill all fields"))
     }

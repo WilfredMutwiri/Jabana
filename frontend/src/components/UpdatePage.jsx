@@ -6,6 +6,7 @@ import ParentsUpdate from "./DatabaseUpdate/ParentsUpdate";
 import WorkersUpdate from "./DatabaseUpdate/WorkersUpdate";
 import { useSelector,useDispatch} from 'react-redux';
 import { fetchTeachers } from '../../Redux/User/teacherSlice';
+import { fetchParents } from '../../Redux/User/parentSlice';
 
 export default function UpdatePage() {
     const [visibleSection,setVisibleSection]=useState('dashboard')
@@ -18,10 +19,13 @@ export default function UpdatePage() {
     const workersDivRef=useRef(null)
 
     const dispatch=useDispatch()
-    const {teachers,loading,error}=useSelector(state=>state.teacher)
+    const {teachers,loading,error}=useSelector(state=>state.teacher);
+    const {parents,ploading,perror}=useSelector(state=>state.parent)
+
 
     useEffect(()=>{
         dispatch(fetchTeachers());
+        dispatch(fetchParents())
     },[dispatch])
 
     const showSection=(section)=>{
@@ -58,6 +62,7 @@ export default function UpdatePage() {
             {/* Teachers div */}
             <div className={`bg-gray-50 p-1 rounded-md`} ref={teachersDivRef}>
                 <h2 className="p-2 text-center text-lg text-pink-700">Available Teachers</h2>
+                <h1 className='text-center p-2 italic text-sm text-cyan-800'>( Teacher Name, Teacher Email,Teacher Phone No )</h1>
                 <hr />
                 <div>
                     <ul className="flex flex-col gap-4 p-3">
@@ -79,7 +84,7 @@ export default function UpdatePage() {
                         {loading && 
                         <>
                         <Spinner size="sm"/>
-                        <span className='ml-3'>Loading..</span>
+                        <span className='ml-3'>Loading...</span>
                         </>
                         }
                         {
@@ -91,15 +96,20 @@ export default function UpdatePage() {
             {/* parents div */}
             <div className={`bg-gray-50 p-1 rounded-md hidden`} ref={parentsDivRef}>
                 <h2 className="p-2 text-center text-lg text-pink-700">Available Student's Parents</h2>
+                <h1 className='text-center p-2 italic text-sm text-cyan-800'>( Parent Name, Parent Email,Parent Phone No,Student name, Student Admission No )</h1>
                 <hr />
                 <div>
-                    <ul className="flex flex-col gap-2">
-                        <li>Jane Luke <span>+2547 00 000 000</span></li>
-                        <li>Opiyo Mark <span>+2547 00 000 000</span></li>
-                        <li>Linet Mwende<span>+2547 00 000 000</span></li>
-                        <li>Mark Kiprotich<span>+2547 00 000 000</span></li>
-                        <li>Elisha Juma<span>+2547 00 000 000</span></li>
-                        <li>Johnson Mwendwa<span>+2547 00 000 000</span></li>
+                <ul className="flex flex-col gap-4 p-3">
+                        {parents && parents.map((parent) => (
+                            <li className='block gap-4 md:flex justify-between' key={parent._id}>
+                                <h2>{parent.fullName}</h2>
+                                <h3 className='text-cyan-700'>{parent.email}</h3>
+                                <h3 className='text-pink-700'>{parent.phoneNo}</h3>
+                                <h3 className='text-pink-700'>{parent.studentName}</h3>
+                                <h3 className='text-pink-700'>{parent.studentAdmNo}</h3>
+
+                            </li>
+                        ))}
                     </ul>
                     <div className="bg-gray-300 p-3 mt-4">
                     <Button className="w-[500px] mx-auto mt-3" gradientDuoTone="pinkToOrange" outline>Show More</Button>

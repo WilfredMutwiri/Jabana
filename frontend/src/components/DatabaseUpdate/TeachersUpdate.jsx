@@ -29,7 +29,9 @@ export default function TeachersUpdate() {
             dispatch(addTeacherStart())
             const res=await fetch(SERVER_URL+'/api/users/addTeacher',{
                 method:"POST",
-                headers:{"Content-Type":"application/json"},
+                headers:{
+                    "Content-Type":"application/json"
+                },
                 body:JSON.stringify(formData)
             })
             const data=await res.json();
@@ -40,7 +42,7 @@ export default function TeachersUpdate() {
             if(res.ok){
                 dispatch(addTeacherSuccess(data))
                 setIsLoading(false);
-                setError(null);
+                setError(false);
                 setAddSuccess(true);
             }
             handleReload()
@@ -87,7 +89,7 @@ export default function TeachersUpdate() {
                         isloading ?
                         <>
                         <Spinner size="sm"/>
-                        <span className='ml-3 text-red-600'>Adding New Teacher</span>
+                        <span className='ml-3 text-red-600'>Adding New Teacher...</span>
                         </> : 'Add new Teacher'
                     }
                 </Button>
