@@ -70,7 +70,7 @@ export default function UpdatePage() {
                             <li className='block gap-4 md:flex justify-between' key={teacher._id}>
                                 <h2>{teacher.fullName}</h2>
                                 <h3 className='text-cyan-700'>{teacher.email}</h3>
-                                <h3 className='text-pink-700'>{teacher.phoneNo}</h3>
+                                <h3 className='text-black'>{teacher.phoneNo}</h3>
                             </li>
                         ))}
                     </ul>
@@ -104,9 +104,9 @@ export default function UpdatePage() {
                             <li className='block gap-4 md:flex justify-between' key={parent._id}>
                                 <h2>{parent.fullName}</h2>
                                 <h3 className='text-cyan-700'>{parent.email}</h3>
-                                <h3 className='text-pink-700'>{parent.phoneNo}</h3>
+                                <h3 className='text-black'>{parent.phoneNo}</h3>
                                 <h3 className='text-pink-700'>{parent.studentName}</h3>
-                                <h3 className='text-pink-700'>{parent.studentAdmNo}</h3>
+                                <h3 className='text-black'>{parent.studentAdmNo}</h3>
 
                             </li>
                         ))}
