@@ -15,8 +15,11 @@ import ParentsSquare from "./Database/ParentsSquare";
 import WorkersSquare from "./Database/WorkersSquare";
 import UpdatePage from "./UpdatePage";
 import { Button } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import {SERVER_URL} from '../constants/SERVER_URL'
+import { signoutSuccess } from '../../Redux/User/userSlice';
 export default function AdminDashboard() {
+    const Navigate=useNavigate()
     const dispatch=useDispatch();
     const {currentUser}=useSelector(state=>state.user)
     const [visibleSection,setVisibleSection]=useState('updatePage')
@@ -30,6 +33,23 @@ export default function AdminDashboard() {
     const showSection=(section)=>{
         setVisibleSection(section)
     }
+    const handleSignout=async()=>{
+        try {
+          const res=await fetch(SERVER_URL+'/api/auth/signout',{
+            method:"POST"
+          })
+          const data=await res.json();
+          if(!res.ok){
+            console.log(data.message);
+          }else{
+            dispatch(signoutSuccess());
+          }
+          Navigate('/Landing')
+        }
+        catch (error) {
+          console.log(error.message);
+        }
+      }
     return (
         <div>
             <hr />
@@ -59,9 +79,7 @@ export default function AdminDashboard() {
 
                             <li onClick={()=>showSection('workers')} className='p-2 hover:bg-gray-100 rounded-md text-orange-500 hover:text-pink-500 cursor-pointer flex gap-3'><span><GrUserWorker className="text-xl"/></span>Workers Square</li>
                         </ul>
-                        <Link to="/Landing">
-                        <Button className="w-full mt-4" outline>Exit</Button>
-                        </Link>
+                        <Button className="w-full mt-4" outline onClick={handleSignout}>Exit</Button>
                     </div>
                     <IoMdClose className="text-center mt-4 mx-auto block md:hidden" onClick={handleCloseMenu}/>
                 </div>

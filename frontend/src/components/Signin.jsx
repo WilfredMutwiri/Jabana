@@ -9,18 +9,16 @@ export default function SignIn(){
         const Navigate=useNavigate();
         const [loading,setIsLoading]=useState(false);
         const [formData,setFormData]=useState({});
-        const [errorMessage,setErrorMessage]=useState(false);
+        const [errorMessage,setErrorMessage]=useState("");
         const [loginSuccess,setLoginSuccess]=useState(false);
         const dispatch = useDispatch();
-    
         const handleChange=(e)=>{
             setFormData({...formData,[e.target.id]:e.target.value.trim()})
-            console.log(FormData);
         }
         const handleSubmit=async(e)=>{
             e.preventDefault();
             setIsLoading(true);
-            setErrorMessage(false);
+            setErrorMessage("");
             setLoginSuccess(false)
             if(!formData.userName ||
                 !formData.email ||
@@ -29,7 +27,9 @@ export default function SignIn(){
                 formData.email===" "||
                 formData.password===""
             ){
-                setErrorMessage("All fields must be filled!")
+                setErrorMessage("All fields must be filled!");
+                setIsLoading(false);
+                return;
             }
             try {
                 dispatch(signInStart())
@@ -39,17 +39,20 @@ export default function SignIn(){
                     body:JSON.stringify(formData)
                 })
                 const data=await res.json();
-                if(data.success==false){
-                    dispatch(signInFailure(data.message))
+                if(!res.ok){
+                    setErrorMessage(data.message || "An error occurred")
+                    dispatch(signInFailure(data.message || "An error occured"))
+                    setIsLoading(false);
+                    return;
                 }
-                if(res.ok){
-                    dispatch(signInSuccess(data))
-                    setLoginSuccess(true)
-                    setLoginSuccess("Login successfull!")
-                    Navigate('/admin');
-                }
+                dispatch(signInSuccess(data))
+                setLoginSuccess(true)
+                setLoginSuccess("Login successfull!")
+                Navigate('/admin');
             } catch (error) {
+                setErrorMessage(error.message)
                 dispatch(signInFailure(error.message))
+                setIsLoading(false)
             }
     
         }
@@ -76,6 +79,7 @@ export default function SignIn(){
                         type='text'
                         id='userName'
                         onChange={handleChange}
+                        required
                         />
 
                         <Label value='Your Email'/>
@@ -84,6 +88,7 @@ export default function SignIn(){
                         type='email'
                         id='email'
                         onChange={handleChange}
+                        required
                         />
                         <Label value='Your Password'/>
                         <TextInput 
@@ -91,6 +96,7 @@ export default function SignIn(){
                         type='password'
                         id='password'
                         onChange={handleChange}
+                        required
                         />
                         <Button  gradientDuoTone='pinkToOrange'className='w-full' type='submit' disabled={loading}>
                             {

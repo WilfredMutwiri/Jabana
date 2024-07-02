@@ -1,8 +1,7 @@
 const User=require('../models/userModel');
 const bcryptjs=require('bcryptjs')
 const jwt=require('jsonwebtoken');
-const { errorHandler } = require('../utils/errorHandler');
-
+const errorHandler = require('../utils/errorHandler');
 const signup=async(req,res,next)=>{
     const {userName,email,password}=req.body;
     if(
@@ -76,8 +75,15 @@ try {
     
 }
 }
-
+const signout=(req,res,next)=>{
+    try {
+        res.clearCookie('access_token').status(200).json("signout successfull")
+    } catch (error) {
+        next(error)
+    }
+}
 module.exports={
     signup,
-    signin
+    signin,
+    signout
 }
