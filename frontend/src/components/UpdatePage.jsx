@@ -82,7 +82,7 @@ export default function UpdatePage() {
                         <Button className='mx-auto w-full'  gradientDuoTone="pinkToOrange" outline>Show More</Button>
                         </div>
                         <div className="w-10/12 mx-auto mt-3">
-                        <Button className='mx-auto w-full' onClick={()=>showSection('teachers')} gradientDuoTone="pinkToOrange" outline>Add New Teacher</Button>
+                        <Button className='mx-auto w-full mt-2 mb-2' onClick={()=>showSection('teachers')} gradientDuoTone="pinkToOrange" outline>Add New Teacher</Button>
                         </div>
                         {loading && 
                         <>
@@ -116,7 +116,7 @@ export default function UpdatePage() {
                     </ul>
                     <div className="bg-gray-300 p-3 mt-4">
                     <Button className="w-10/12 mx-auto mt-3" gradientDuoTone="pinkToOrange" outline>Show More</Button>
-                    <Button onClick={()=>showSection('parents')} className="w-10/12 mx-auto mt-2" gradientDuoTone="pinkToOrange" outline>Add New Parent</Button>
+                    <Button onClick={()=>showSection('parents')} className="w-10/12 mx-auto mt-2 mb-2" gradientDuoTone="pinkToOrange" outline>Add New Parent</Button>
                     </div>
                     {ploading && 
                         <>
@@ -148,7 +148,7 @@ export default function UpdatePage() {
                     </ul>
                     <div className="bg-gray-300 p-3 mt-4">
                     <Button className="w-10/12 mx-auto mt-3" gradientDuoTone="pinkToOrange" outline>Show More</Button>
-                    <Button onClick={()=>showSection('workers')} className="w-10/12 mx-auto mt-2" gradientDuoTone="pinkToOrange" outline>Add New Worker</Button>
+                    <Button onClick={()=>showSection('workers')} className="w-10/12 mx-auto mt-2 mb-2" gradientDuoTone="pinkToOrange" outline>Add New Worker</Button>
                     {w_loading && 
                         <>
                         <Spinner size="sm"/>
