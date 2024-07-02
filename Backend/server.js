@@ -1,7 +1,8 @@
+const dotenv=require('dotenv').config()
+
 const express=require('express')
 const mongoose=require('mongoose')
 const cors=require('cors')
-const dotenv=require('dotenv').config()
 const authRoutes=require('./Routes/authRoutes')
 const usersRoutes=require('./Routes/usersRoutes')
 const errorHandler=require('./utils/errorHandler')
@@ -17,6 +18,7 @@ app.use('/api/users',usersRoutes)
 // error handling middleware 
 app.use(errorHandler)
 
+
 app.listen(process.env.PORT,()=>{
     console.log(`Listening on port ${process.env.PORT}`);
 })
@@ -27,4 +29,6 @@ mongoose.connect(process.env.MONGO_URL)
     .catch((error)=>{
         console.log(error);
     })
+
+
 
