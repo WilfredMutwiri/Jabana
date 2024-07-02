@@ -20,7 +20,7 @@ const addParent=async(req,res,next)=>{
         // next(errorHandler(400,"Kindly fill all fields"))
     }
     try {
-        const existingStudent=await Parent.findOne({studentName})
+        const existingStudent=await Parent.findOne({$or:[{studentName},{studentAdmNo}]})
         if(existingStudent){
             return res.status(400).json({success:false,message:"Student already exists"})
             // next(errorHandler(400,"Teacher already exists"))

@@ -7,6 +7,7 @@ import WorkersUpdate from "./DatabaseUpdate/WorkersUpdate";
 import { useSelector,useDispatch} from 'react-redux';
 import { fetchTeachers } from '../../Redux/User/teacherSlice';
 import { fetchParents } from '../../Redux/User/parentSlice';
+import { fetchWorkers } from '../../Redux/User/workerSlice';
 
 export default function UpdatePage() {
     const [visibleSection,setVisibleSection]=useState('dashboard')
@@ -21,11 +22,13 @@ export default function UpdatePage() {
     const dispatch=useDispatch()
     const {teachers,loading,error}=useSelector(state=>state.teacher);
     const {parents,ploading,perror}=useSelector(state=>state.parent)
+    const {workers,w_loading,w_error}=useSelector(state=>state.worker)
 
 
     useEffect(()=>{
         dispatch(fetchTeachers());
-        dispatch(fetchParents())
+        dispatch(fetchParents());
+        dispatch(fetchWorkers())
     },[dispatch])
 
     const showSection=(section)=>{
@@ -112,27 +115,49 @@ export default function UpdatePage() {
                         ))}
                     </ul>
                     <div className="bg-gray-300 p-3 mt-4">
-                    <Button className="w-[500px] mx-auto mt-3" gradientDuoTone="pinkToOrange" outline>Show More</Button>
-                    <Button onClick={()=>showSection('parents')} className="w-[500px] mx-auto mt-2" gradientDuoTone="pinkToOrange" outline>Add New Parent</Button>
+                    <Button className="w-10/12 mx-auto mt-3" gradientDuoTone="pinkToOrange" outline>Show More</Button>
+                    <Button onClick={()=>showSection('parents')} className="w-10/12 mx-auto mt-2" gradientDuoTone="pinkToOrange" outline>Add New Parent</Button>
                     </div>
+                    {ploading && 
+                        <>
+                        <Spinner size="sm"/>
+                        <span className='ml-3'>Loading...</span>
+                        </>
+                        }
+                        {
+                        perror && <Alert className='mt-4' color="failure">{error}</Alert>
+                        }
                 </div>
             </div>
             {/* workers div */}
             <div className={`bg-gray-50 p-1 rounded-md hidden`} ref={workersDivRef}>
                 <h2 className="p-2 text-center text-lg text-pink-700">Available Workers</h2>
+                <h1 className='text-center p-2 italic text-sm text-cyan-800'>( Worker's Name, Email, phone No, Department )</h1>
+
                 <hr />
                 <div>
-                    <ul className="flex flex-col gap-2">
-                        <li>Mery Cherotich<span>+2547 00 000 000</span></li>
-                        <li>Joshua Mutithia<span>+2547 00 000 000</span></li>
-                        <li>Oliver Mark<span>+2547 00 000 000</span></li>
-                        <li>Jackline Mwende<span>+2547 00 000 000</span></li>
-                        <li>Paul Mutisya<span>+2547 00 000 000</span></li>
-                        <li>Omondi Jack<span>+2547 00 000 000</span></li>
+                <ul className="flex flex-col gap-4 p-3">
+                        {workers && workers.map((worker) => (
+                            <li className='block gap-4 md:flex justify-between' key={worker._id}>
+                                <h2>{worker.fullName}</h2>
+                                <h3 className='text-cyan-700'>{worker.email}</h3>
+                                <h3 className='text-black'>{worker.phoneNo}</h3>
+                                <h3 className='text-pink-700'>{worker.Department}</h3>
+                            </li>
+                        ))}
                     </ul>
                     <div className="bg-gray-300 p-3 mt-4">
-                    <Button className="w-[500px] mx-auto mt-3" gradientDuoTone="pinkToOrange" outline>Show More</Button>
-                    <Button onClick={()=>showSection('workers')} className="w-[500px] mx-auto mt-2" gradientDuoTone="pinkToOrange" outline>Add New Worker</Button>
+                    <Button className="w-10/12 mx-auto mt-3" gradientDuoTone="pinkToOrange" outline>Show More</Button>
+                    <Button onClick={()=>showSection('workers')} className="w-10/12 mx-auto mt-2" gradientDuoTone="pinkToOrange" outline>Add New Worker</Button>
+                    {w_loading && 
+                        <>
+                        <Spinner size="sm"/>
+                        <span className='ml-3'>Loading...</span>
+                        </>
+                        }
+                        {
+                        perror && <Alert className='mt-4' color="failure">{w_error}</Alert>
+                        }
                     </div>
                 </div>
             </div>

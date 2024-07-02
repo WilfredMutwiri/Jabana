@@ -16,7 +16,7 @@ const addTeacher=async(req,res,next)=>{
         // next(errorHandler(400,"Kindly fill all fields"))
     }
     try {
-        const existingTeacher=await Teacher.findOne({fullName})
+        const existingTeacher=await Teacher.findOne({$or:[{fullName},{email},{phoneNo}]})
         if(existingTeacher){
             return res.status(400).json({success:false,message:"Teacher already exists"})
             // next(errorHandler(400,"Teacher already exists"))

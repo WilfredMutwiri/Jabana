@@ -18,7 +18,6 @@ const workerSchema=new mongoose.Schema({
     Department:{
             type:String,
             required:true,
-            unique:true
     }
 },{timestamps:true});
 

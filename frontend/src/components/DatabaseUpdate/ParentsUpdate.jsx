@@ -57,14 +57,14 @@ export default function ParentsUpdate() {
             <form className="flex flex-col gap-2 " onSubmit={handleSubmit}>
                 <Label value="Full Name" id="parentName" className="text-white"/>
                 <TextInput 
-                placeholder="full name"
+                placeholder="Parent full name"
                 type="text"
                 required
                 id='fullName'
                 onChange={handleChange}
                 />
                 
-                <Label value="email" id="email" className="text-white"/>
+                <Label value="Parent Email" id="email" className="text-white"/>
                 <TextInput 
                 placeholder="parent@gmail.com"
                 required
