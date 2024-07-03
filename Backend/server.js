@@ -15,10 +15,6 @@ app.use(cors())
 app.use('/api/auth',authRoutes)
 app.use('/api/users',usersRoutes)
 
-// error handling middleware 
-app.use(errorHandler)
-
-
 app.listen(process.env.PORT,()=>{
     console.log(`Listening on port ${process.env.PORT}`);
 })
@@ -28,6 +24,16 @@ mongoose.connect(process.env.MONGO_URL)
     })
     .catch((error)=>{
         console.log(error);
+    })
+// middleware
+app.use((err,req,res,next)=>{
+    const statusCode=err.statusCode || 500;
+    const message=err.message || "Internal Server Error";
+    res.status(statusCode).json({
+        success:false,
+        statusCode,
+        message
+    })
     })
 
 

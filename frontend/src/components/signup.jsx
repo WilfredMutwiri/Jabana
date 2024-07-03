@@ -3,11 +3,10 @@ import {Alert, Button, Label, Spinner, TextInput} from 'flowbite-react'
 import {SERVER_URL} from '../constants/SERVER_URL'
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom'
-
 export default function signup() {
   const [formData,setFormData]=useState({});
   const [loading,setLoading]=useState(false);
-  const [errorMessage,setErrorMessage]=useState(null);
+  const [errorMessage,setErrorMessage]=useState("");
   const [successMessage,setSuccessMessage]=useState(false);
 
 
@@ -18,38 +17,28 @@ export default function signup() {
   }
   const handleSubmit=async(e)=>{
       e.preventDefault();
+      setLoading(true);
+      setErrorMessage("");
+      setSuccessMessage(false)
       if(!formData.userName || !formData.email || !formData.password){
           return setErrorMessage("All fields must be filled")
       }
       try {
-          setErrorMessage(null);
-          setSuccessMessage(false);
-          setLoading(true);
           const res=await fetch(SERVER_URL+'/api/auth/signup',{
               method:"POST",
               headers:{'Content-Type':'application/json'},
               body:JSON.stringify(formData)
           });
-          const contentType = res.headers.get("content-type");
-          if (!contentType || !contentType.includes("application/json")) {
-              throw new Error("Server response is not in JSON format");
-          }
           const data=await res.json();
-          if(data.success==false){
-            console.log("signup failed");
-            return setErrorMessage(error.message)
+          if(!res.ok){
+            setErrorMessage(data.message)
+            setLoading(false)
+            return;
           }
-          setLoading(false)
-          if(data){
-            setSuccessMessage(true)
-            setSuccessMessage("Account Created Successfully!");
-          }
-          if(res.ok){
+            setLoading(false)
             setSuccessMessage(true)
             setSuccessMessage("Account Created Successfully!");
             Navigate('/signIn')
-            console.log("signup successful");
-          }
       } catch (error) {
           setErrorMessage(error.message);
           setSuccessMessage(false);
@@ -78,6 +67,7 @@ export default function signup() {
                         type='text'
                         id='userName'
                         onChange={handleChange}
+                        required
                         />
                         <Label value='Your Email'/>
                         <TextInput 
@@ -85,13 +75,15 @@ export default function signup() {
                         type='email'
                         id='email'
                         onChange={handleChange}
+                        required
                         />
                         <Label value='Your Password'/>
                         <TextInput
-                        placeholder='*******'
+                        placeholder='Usermark@2024'
                         type='password'
                         id='password'
                         onChange={handleChange}
+                        required
                         />
                         <Button 
                         gradientDuoTone='pinkToOrange'

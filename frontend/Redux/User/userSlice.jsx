@@ -51,7 +51,7 @@ export const{
     addTeacherStart,
     addTeacherSuccess,
     addTeacherFailure,
-    signoutSuccess
+    signoutSuccess,
 }=userSlice.actions;
 
 export default userSlice.reducer;
