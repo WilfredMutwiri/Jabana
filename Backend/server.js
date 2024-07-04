@@ -5,6 +5,7 @@ const mongoose=require('mongoose')
 const cors=require('cors')
 const authRoutes=require('./Routes/authRoutes')
 const usersRoutes=require('./Routes/usersRoutes')
+const smsRoutes=require('./Routes/smsRoutes')
 const errorHandler=require('./utils/errorHandler')
 
 const app=express();
@@ -14,8 +15,9 @@ app.use(cors())
 // test api
 app.use('/api/auth',authRoutes)
 app.use('/api/users',usersRoutes)
+app.use('/api/sms',smsRoutes)
 
-app.listen(process.env.PORT,()=>{
+app.listen(process.env.PORT || 4001,()=>{
     console.log(`Listening on port ${process.env.PORT}`);
 })
 mongoose.connect(process.env.MONGO_URL)
@@ -35,6 +37,9 @@ app.use((err,req,res,next)=>{
         message
     })
     })
+
+// sending sms
+// sendSMS()
 
 
 
