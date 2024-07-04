@@ -13,6 +13,8 @@ app.use(express.json());
 app.use(cors())
 
 // test api
+
+// AFRICASTKNG
 app.use('/api/auth',authRoutes)
 app.use('/api/users',usersRoutes)
 app.use('/api/sms',smsRoutes)
