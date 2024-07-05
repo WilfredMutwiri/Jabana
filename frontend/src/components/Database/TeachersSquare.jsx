@@ -1,17 +1,28 @@
 import React from 'react'
-import { Alert, Button, Label, Spinner, TextInput, Textarea } from "flowbite-react";
-import { useState } from 'react';
+import { Alert, Button, Label, Spinner, TextInput, Textarea,Modal,Checkbox } from "flowbite-react";
+import { useState,useEffect } from 'react';
 import { SERVER_URL } from '../../constants/SERVER_URL';
+import { fetchTeachers } from '../../../Redux/User/teacherSlice';
+import { useSelector,useDispatch} from 'react-redux';
+import { IoSearchOutline } from "react-icons/io5";
 
 export default function TeachersSquare() {
+    const dispatch=useDispatch();
+    const {teachers,loading,error}=useSelector(state=>state.teacher);
     const [formData,setFormData]=useState({});
-    const [loading,setLoading]=useState(false);
+    const [isloading,setLoading]=useState(false);
     const [smsSuccess,setSmsSuccess]=useState(false);
     const [isError,setIsError]=useState("");
+    const [openModal,setOpenModal]=useState(false)
+    const [openSpecialTeacherModal,setSpecialTeacherModalOpen]=useState(false)
+
+    useEffect(()=>{
+        dispatch(fetchTeachers());
+    },[dispatch])
 
     // check phone number validity
     const validPhoneNo=(phonenumber)=>{
-        const regex = /^\+2547\d{8}$/;
+        const regex = /^\+254\d{8}$/;
         return regex.test(phonenumber)
     }
     // +254774529458
@@ -34,7 +45,8 @@ export default function TeachersSquare() {
         }else if(!formData.phoneNo || !formData.phoneNo===""){
             setLoading(false);
             return setIsError("Kindly select a recipient!")
-        }else if(!validPhoneNo(formData.phoneNo)){
+        }
+        else if(!validPhoneNo(formData.phoneNo)){
             setLoading(false);
             return setIsError("Invalid Phone number")
         }
@@ -68,19 +80,13 @@ export default function TeachersSquare() {
                             <div className="block md:flex gap-6">
                                 <div className=" pt-3 flex flex-col gap-4 flex-1">
                                     <h2>Send Message to:</h2>
-                                    <div className="flex gap-3">
-                                    <Button className="w-full">All Teachers</Button>
+                                    <div className="">
+                                    <Button className="w-full" onClick={()=>setOpenModal(true)}>All Teachers</Button>
                                     </div>
                                     <hr />
                                     <div>
                                     <Label value="All Teachers Except"/>
-                                    <TextInput 
-                                    type="text"
-                                    className="mt-2 mb-2"
-                                    placeholder="+254700000000"
-                                    onChange={handleChange}
-                                    id='phoneNo'
-                                    />
+                                    <Button className='w-full mt-3' onClick={()=>setSpecialTeacherModalOpen(true)}>Select</Button>
                                     </div>
                                     <hr />
                                     <div>
@@ -102,7 +108,7 @@ export default function TeachersSquare() {
                                     onChange={handleChange}/>
                                     <Button className="w-full mt-3" gradientDuoTone="pinkToOrange" disabled={loading} outline type='submit'>
                                         {
-                                            loading ?
+                                            isloading ?
                                             (
                                             <>
                                             <Spinner size="sm"/>
@@ -127,6 +133,122 @@ export default function TeachersSquare() {
                         </div>
                 </form>
             </div>
+            {/* all teachers modal */}
+            <section>
+                <Modal show={openModal} onClose={()=>setOpenModal(false)}>
+                    <Modal.Header>Send Message To All Teachers</Modal.Header>
+                    <Modal.Body>
+                        <div className='block md:flex justify-between'>
+                            <div>
+                                <h2 className='text-center'>Available Teachers</h2>
+                                <h1 className='text-center p-2 italic text-sm text-cyan-800'>( Teacher Name, Teacher Email,Teacher Phone No )</h1>
+                                <hr />
+                                <div>
+                    <ul className="flex flex-col gap-4 p-3">
+                        {teachers && teachers.map((teacher) => (
+                            <li className='block gap-4 md:flex justify-between' key={teacher._id}>
+                                <h2>{teacher.fullName}</h2>
+                                <h3 className='text-black'>{teacher.phoneNo}</h3>
+                            </li>
+                        ))}
+                    </ul>
+                    <div className=" p-2 mt-4 rounded-md">
+                        <div className=" mx-auto mt-3">
+                        <Button className='mx-auto w-full'  gradientDuoTone="pinkToOrange" outline>Show More</Button>
+                        </div>
+                        <div className="w-10/12 mx-auto mt-3">
+                        </div>
+                        {loading && 
+                        <>
+                        <Spinner size="sm"/>
+                        <span className='ml-3'>Loading...</span>
+                        </>
+                        }
+                        {
+                        error && <Alert className='mt-4' color="failure">{error}</Alert>
+                        }
+                    </div>
+                </div>
+
+                            </div>
+                            <div>
+                            <Textarea 
+                                    className="w-full h-72 mt-4" 
+                                    placeholder="Greetings. You are hearby notified that..."
+                                    id='message'
+                            />
+                            <Button className='mt-3 w-full' outline gradientDuoTone="pinkToOrange">Send Message</Button>
+                            </div>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={()=>setOpenModal(false)}>Cancel</Button>
+                    </Modal.Footer>
+                </Modal>
+            </section>
+            {/* special teacher modal section */}
+            <section>
+                <Modal show={openSpecialTeacherModal} onClose={()=>setSpecialTeacherModalOpen(false)}>
+                    <Modal.Header>Send Message To All Teachers Except</Modal.Header>
+                    <Modal.Body>
+                        <div className='block md:flex justify-between'>
+                            <div>
+                                <h2 className='text-center'>Available Teachers</h2>
+                                {/* <div className='flex w-full'>
+                                <TextInput 
+                                    type="text"
+                                    className=""
+                                    placeholder="+2540700000000"
+                                    id='phoneNo'
+                                    />
+                                    <IoSearchOutline className='w-6 h-10 ml-10'/>
+                                </div> */}
+                                <h2 className='text-center italic text-sm text-red-600 p-1'>( Selected teachers won't receive message )</h2>
+                                <hr />
+                                <div>
+                    <ul className="flex flex-col gap-4 p-3">
+                        {teachers && teachers.map((teacher) => (
+                            <li className='block gap-4 md:flex justify-between' key={teacher._id}>
+                                <h2>{teacher.fullName}</h2>
+                                <h3 className='text-black'>{teacher.phoneNo}</h3>
+                                <Checkbox id='ignore'/>
+                            </li>
+                        ))}
+                    </ul>
+                    <div className=" p-2 mt-4 rounded-md">
+                        <div className=" mx-auto mt-3">
+                        <Button className='mx-auto w-full'  gradientDuoTone="pinkToOrange" outline>Show More</Button>
+                        </div>
+                        <div className="w-10/12 mx-auto mt-3">
+                        </div>
+                        {loading && 
+                        <>
+                        <Spinner size="sm"/>
+                        <span className='ml-3'>Loading...</span>
+                        </>
+                        }
+                        {
+                        error && <Alert className='mt-4' color="failure">{error}</Alert>
+                        }
+                    </div>
+                </div>
+
+                            </div>
+                            <div>
+                            <Textarea 
+                                    className="w-full h-72 mt-4" 
+                                    placeholder="Greetings. You are hearby notified that..."
+                                    id='message'
+                            />
+                            <Button className='mt-3 w-full' outline gradientDuoTone="pinkToOrange">Send Message</Button>
+                            </div>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={()=>setSpecialTeacherModalOpen(false)}>Cancel</Button>
+                    </Modal.Footer>
+                </Modal>
+            </section>
         </div>
     );
 }
