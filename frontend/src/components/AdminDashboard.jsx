@@ -56,12 +56,12 @@ export default function AdminDashboard() {
             <div className=" w-full overflow-hidden ">
             <div className="flex justify-between">
             <div className="flex md:hidden w-full">
-                <MdMenu className="text-3xl text-black block md:hidden" onClick={handleRevealMenu}/>
+                <MdMenu className="text-3xl text-black block md:hidden ml-2 mt-4" onClick={handleRevealMenu}/>
             </div>
             </div>
             </div>
             <section>
-                <div className="block md:flex w-11/12 m-auto mt-10 gap-10">
+                <div className="block md:flex w-11/12 m-auto mt-10 gap-5 md:gap-10">
                     {/* left section */}
                 <div className={`-mt-7  bg-gray-200 rounded-md p-4 shadow-sm shadow-pink-5x00 w-auto mb-5 md:mb-0 ${menuVisible ? 'block':'hidden'}`}>
                     <div>

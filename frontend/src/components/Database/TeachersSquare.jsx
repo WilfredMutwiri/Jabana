@@ -22,7 +22,7 @@ export default function TeachersSquare() {
 
     // check phone number validity
     const validPhoneNo=(phonenumber)=>{
-        const regex = /^\+254\d{8}$/;
+        const regex = /^\+254\d{9}$/
         return regex.test(phonenumber)
     }
     // +254774529458

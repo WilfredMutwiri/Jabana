@@ -1295,6 +1295,10 @@ input[type="range"]::-ms-fill-lower {
   margin-left: 0.25rem;
 }
 
+.ml-10 {
+  margin-left: 2.5rem;
+}
+
 .ml-2 {
   margin-left: 0.5rem;
 }
@@ -1588,10 +1592,6 @@ input[type="range"]::-ms-fill-lower {
   width: 2.25rem;
 }
 
-.w-\[500px\] {
-  width: 500px;
-}
-
 .w-auto {
   width: auto;
 }
@@ -1608,14 +1608,6 @@ input[type="range"]::-ms-fill-lower {
 .w-max {
   width: -moz-max-content;
   width: max-content;
-}
-
-.w-\[200px\] {
-  width: 200px;
-}
-
-.w-\[400px\] {
-  width: 400px;
 }
 
 .max-w-2xl {
@@ -1870,10 +1862,6 @@ input[type="range"]::-ms-fill-lower {
   gap: 0.25rem;
 }
 
-.gap-10 {
-  gap: 2.5rem;
-}
-
 .gap-2 {
   gap: 0.5rem;
 }
@@ -2008,6 +1996,12 @@ input[type="range"]::-ms-fill-lower {
 
 .scroll-smooth {
   scroll-behavior: smooth;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .whitespace-nowrap {
@@ -2384,6 +2378,11 @@ input[type="range"]::-ms-fill-lower {
   background-color: rgb(14 116 144 / var(--tw-bg-opacity));
 }
 
+.bg-cyan-950 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(8 51 68 / var(--tw-bg-opacity));
+}
+
 .bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -2603,16 +2602,6 @@ input[type="range"]::-ms-fill-lower {
 .bg-yellow-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(159 88 10 / var(--tw-bg-opacity));
-}
-
-.bg-cyan-800 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(21 94 117 / var(--tw-bg-opacity));
-}
-
-.bg-cyan-950 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(8 51 68 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
@@ -5885,10 +5874,6 @@ input[type="range"]::-ms-fill-lower {
     display: flex;
   }
 
-  .md\:grid {
-    display: grid;
-  }
-
   .md\:hidden {
     display: none;
   }
@@ -5909,16 +5894,12 @@ input[type="range"]::-ms-fill-lower {
     width: 41.666667%;
   }
 
-  .md\:w-auto {
-    width: auto;
-  }
-
-  .md\:w-9\/12 {
-    width: 75%;
-  }
-
   .md\:w-6\/12 {
     width: 50%;
+  }
+
+  .md\:w-auto {
+    width: auto;
   }
 
   .md\:max-w-xl {
@@ -5935,6 +5916,10 @@ input[type="range"]::-ms-fill-lower {
 
   .md\:justify-between {
     justify-content: space-between;
+  }
+
+  .md\:gap-10 {
+    gap: 2.5rem;
   }
 
   .md\:space-x-8 > :not([hidden]) ~ :not([hidden]) {
