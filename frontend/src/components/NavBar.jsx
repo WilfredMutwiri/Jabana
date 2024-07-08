@@ -28,18 +28,17 @@ export default function NavBar() {
     }
   }
   return (
-    <Navbar fluid rounded>
-      <div className='w-full flex justify-between'>
-      <Navbar.Brand>
-      <div className="flex p-3">
+    <Navbar fluid rounded className='w-full justify-between'>
+       <Navbar.Brand>
+       <div className="flex w-full justify-between">
         <span className="text-orange-500 text-2xl bg-black p-1 rounded-md">J</span>
         <h2 className="text-pink-700 text-2xl p-1">abana</h2>
         </div>
-      </Navbar.Brand>
-      <div className="block md:order-2  text-lg font-semibold text-pink-700  text-center">
-        <div className='flex gap-2 mt-4'>
-        <div>
-        {
+       </Navbar.Brand>
+        <div className="block md:order-2 mad:flex justify-between text-lg font-semibold text-pink-700  text-center">
+          <div className='flex gap-2 mt-2 ml-24 md:ml-0'>
+         <div>
+         {
           currentUser ? (
             <Dropdown
             arrowIcon={false}
@@ -68,12 +67,20 @@ export default function NavBar() {
             </Button>
             </Link>
           )
-        }
-        </div>
-        </div>
-      </div>
-      </div>
-      <hr/>
-    </Navbar>
+         }
+         </div>
+         <Navbar.Toggle/>
+         </div>
+          </div>
+         <Navbar.Collapse>
+          <Navbar.Link href="#" active> Home</Navbar.Link>
+         <Navbar.Link href="#">About</Navbar.Link>
+         <Navbar.Link href="#">Documentation</Navbar.Link>
+         <Navbar.Link href="#">FAQ</Navbar.Link>
+         <Navbar.Link href="#">Contact</Navbar.Link>
+         </Navbar.Collapse>
+         <hr/>
+         </Navbar>
   );
 }
+

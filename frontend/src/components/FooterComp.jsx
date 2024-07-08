@@ -6,17 +6,17 @@ export default function FooterComp() {
     return (
         <div>
             <div className="mt-20"> 
-                <Footer container className="border border-t-8 border-teal-500">
+                <Footer container className="border border-t-4 border-teal-500">
                     <div className="w-full">
                     <div className="block md:flex justify-between">
                         <div className=''>
-                        <div className="flex p-3">
+                        <div className="flex ">
                             <span className="text-orange-500 text-sm bg-black p-1 rounded-md">J</span>
                             <h2 className="text-pink-700 text-sm p-1">abana</h2>
                             </div>
-                            <h2 className="text-sm italic mb-3 md:mb-0">Your Altimate Manager</h2>
+                            <h2 className="text-sm italic mb-3 mt-2 md:mt-0 md:mb-0">Your Ultimate Manager</h2>
                         </div>
-                        <div className="grid grid-cols-3 gap-6">
+                        <div className="grid grid-cols-3 gap-4">
                             <div>
                             <Footer.Title title="About"/>
                             <Footer.LinkGroup col>
@@ -51,7 +51,7 @@ export default function FooterComp() {
                     <Footer.Divider/>
                     <div>
                     <Footer.Copyright by="Jabana" className='text-center' year={new Date().getFullYear()} />
-                    <div className="flex gap-6 mt-3 w-40 mx-auto">
+                    <div className="flex gap-6 mt-2 w-40 mx-auto">
                         <Footer.Icon href="#" icon={BsFacebook}/>
                         <Footer.Icon href="#" icon={BsInstagram}/>
                         <Footer.Icon href="#" icon={BsTwitterX}/>
