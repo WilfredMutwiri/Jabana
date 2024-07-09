@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from "flowbite-react";
 import { Link } from "react-router-dom";
-import landingImg from '../images/landing.png'
+import landingImg from '../images/landing.webp'
 
 export default function Landing() {
     return (

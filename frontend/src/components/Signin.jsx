@@ -5,6 +5,7 @@ import {useState} from 'react';
 import {SERVER_URL} from '../constants/SERVER_URL'
 import { useDispatch } from 'react-redux';
 import { signInFailure, signInStart, signInSuccess } from '../../Redux/User/userSlice';
+import loginImg from '../images/login.webp'
 export default function SignIn(){
         const Navigate=useNavigate();
         const [loading,setIsLoading]=useState(false);
@@ -60,7 +61,10 @@ export default function SignIn(){
         <div className="w-full">
             <hr/>
             <div className="block md:flex w-10/12 pt-10 md:pt-20 m-auto gap-5">
-                <div className='flex-1'>
+            <div className='flex-1'>
+            <img src={loginImg} alt='login image'/>
+            </div>
+                {/* <div className='flex-1'>
                 <div className="flex p-3">
                 <span className="text-orange-500 text-2xl bg-black p-2 rounded-md">J</span>
                 <h2 className="text-pink-700 text-2xl p-2">abana</h2>
@@ -69,7 +73,7 @@ export default function SignIn(){
                     Your ultimate school manager, send sms to your students'parents, teachers and other workers with ease,
                     Login today with your email and password to get access to enjoy our services!
                 </p>
-                </div>
+                </div> */}
                 <div className='flex-1 mt-5 md:mt-0'>
                     <form className='flex flex-col gap-3' onSubmit={handleSubmit}>
                         <Label value='Your Username'/>
