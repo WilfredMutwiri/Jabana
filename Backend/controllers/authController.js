@@ -51,12 +51,10 @@ const signup=async(req,res,next)=>{
 }
 
 const signin=async(req,res,next)=>{
-const {userName,email,password}=req.body;
+const {email,password}=req.body;
 if(
-    !userName ||
     !email ||
     !password ||
-    userName===""||
     email===""||
     password===""
 ){

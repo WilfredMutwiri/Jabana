@@ -9,6 +9,7 @@ export default function signup() {
   const [loading,setLoading]=useState(false);
   const [errorMessage,setErrorMessage]=useState("");
   const [successMessage,setSuccessMessage]=useState(false);
+  const [showPassword,setShowPassowrd]=useState(false)
 
 
   const Navigate=useNavigate();
@@ -53,19 +54,9 @@ export default function signup() {
             <div className='flex-1'>
                 <img src={signupImg} alt='signup image'/>
             </div>
-                {/* <div className='flex-1'>
-                <div className="flex p-3">
-                <span className="text-orange-500 text-2xl bg-black p-2 rounded-md">J</span>
-                <h2 className="text-pink-700 text-2xl p-2">abana</h2>
-                </div>  
-                <p>
-                    Your ultimate school manager, send sms to your students'parents, teachers and other workers with ease,
-                    Create an account today to get access to enjoy our services!
-                </p>
-                </div> */}
                 <div className='flex-1 mt-5 md:mt-0'>
                     <form className='flex flex-col gap-3' onSubmit={handleSubmit}>
-                        <Label value='Your Username'/>
+                        <Label value='Username'/>
                         <TextInput 
                         placeholder='mark'
                         type='text'
@@ -73,7 +64,7 @@ export default function signup() {
                         onChange={handleChange}
                         required
                         />
-                        <Label value='Your Email'/>
+                        <Label value='Email address'/>
                         <TextInput 
                         placeholder='mark@gmail.com'
                         type='email'
@@ -81,14 +72,23 @@ export default function signup() {
                         onChange={handleChange}
                         required
                         />
-                        <Label value='Your Password'/>
+                        <Label value='Password'/>
                         <TextInput
                         placeholder='Usermark@2024'
-                        type='password'
+                        type={showPassword ? 'text' : 'password'}
                         id='password'
                         onChange={handleChange}
                         required
                         />
+                        <div className='flex gap-2 p-2'>
+                            <input
+                            type='checkbox'
+                            id='showPasswordBox'
+                            checked={showPassword}
+                            onChange={()=>setShowPassowrd(!showPassword)}
+                            />
+                            <Label htmlFor='showPasswordBox'value='Show Password'/>
+                        </div>
                         <Button 
                         gradientDuoTone='pinkToOrange'
                         type='submit'

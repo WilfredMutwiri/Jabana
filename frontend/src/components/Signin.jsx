@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {Link,useNavigate} from 'react-router-dom'
 import {Alert, Button, Label, Spinner, TextInput} from 'flowbite-react'
 import {useState} from 'react';
@@ -12,7 +12,22 @@ export default function SignIn(){
         const [formData,setFormData]=useState({});
         const [errorMessage,setErrorMessage]=useState("");
         const [loginSuccess,setLoginSuccess]=useState(false);
+        const [showPassword,setShowPassowrd]=useState(false);
+        const [welcomeText,setWelcomeText]=useState("Welcome Back!")
         const dispatch = useDispatch();
+        useEffect(()=>{
+            const getTimeOfDay=()=>{
+                const hours=new Date().getHours();
+                if(hours<12){
+                    return 'Good Morning, Welcome Back!'
+                }else if (hours<18){
+                    return 'Good Afternoon, Welcome Back!'
+                }else{
+                    return 'Good Evening, Welcome Back!'
+                }
+            };
+            setWelcomeText(getTimeOfDay())
+        },[])
         const handleChange=(e)=>{
             setFormData({...formData,[e.target.id]:e.target.value.trim()})
         }
@@ -21,10 +36,9 @@ export default function SignIn(){
             setIsLoading(true);
             setErrorMessage("");
             setLoginSuccess(false)
-            if(!formData.userName ||
+            if(
                 !formData.email ||
                 !formData.password ||
-                formData.userName==="" ||
                 formData.email===" "||
                 formData.password===""
             ){
@@ -61,32 +75,13 @@ export default function SignIn(){
         <div className="w-full">
             <hr/>
             <div className="block md:flex w-10/12 pt-10 md:pt-20 m-auto gap-5">
-            <div className='flex-1'>
-            <img src={loginImg} alt='login image'/>
+             <div className='flex-1'>
+              <img src={loginImg} alt='login image'/>
             </div>
-                {/* <div className='flex-1'>
-                <div className="flex p-3">
-                <span className="text-orange-500 text-2xl bg-black p-2 rounded-md">J</span>
-                <h2 className="text-pink-700 text-2xl p-2">abana</h2>
-                </div>  
-                <p>
-                    Your ultimate school manager, send sms to your students'parents, teachers and other workers with ease,
-                    Login today with your email and password to get access to enjoy our services!
-                </p>
-                </div> */}
-                <div className='flex-1 mt-5 md:mt-0'>
-                    <form className='flex flex-col gap-3' onSubmit={handleSubmit}>
-                        <Label value='Your Username'/>
-
-                        <TextInput
-                        placeholder='mark'
-                        type='text'
-                        id='userName'
-                        onChange={handleChange}
-                        required
-                        />
-
-                        <Label value='Your Email'/>
+                <div className='flex-1 flex-col mt-5'>
+                <h2 className='text-pink-700 font-semibold text-lg md:text-xl'>{welcomeText}</h2>
+                    <form className='flex flex-col gap-3 pt-2' onSubmit={handleSubmit}>
+                        <Label value='Email address'/>
                         <TextInput
                         placeholder='mark@gmail.com'
                         type='email'
@@ -94,14 +89,23 @@ export default function SignIn(){
                         onChange={handleChange}
                         required
                         />
-                        <Label value='Your Password'/>
+                        <Label value='Password'/>
                         <TextInput 
                         placeholder='*******' 
-                        type='password'
+                        type={showPassword ? 'text': 'password'}
                         id='password'
                         onChange={handleChange}
                         required
                         />
+                        <div className='flex gap-2 p-2'>
+                            <input
+                            type='checkbox'
+                            id='showPasswordBox'
+                            checked={showPassword}
+                            onChange={()=>setShowPassowrd(!showPassword)}
+                            />
+                            <Label htmlFor='showPasswordBox'value='Show Password'/>
+                        </div>
                         <Button  gradientDuoTone='pinkToOrange'className='w-full' type='submit' disabled={loading}>
                             {
                                 loading ? (
