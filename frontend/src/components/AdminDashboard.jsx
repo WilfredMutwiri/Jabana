@@ -5,8 +5,8 @@ import { FaUsers } from "react-icons/fa";
 import profilePic from '../images/userprofile.jpg'
 import { FaDatabase } from "react-icons/fa6";
 import { GiLovers } from "react-icons/gi";
-import { MdMenu } from "react-icons/md";
 import { useSelector,useDispatch } from 'react-redux';
+import { FaCaretDown } from "react-icons/fa";
 
 import { useRef, useState } from "react";
 
@@ -56,7 +56,7 @@ export default function AdminDashboard() {
             <div className=" w-full overflow-hidden ">
             <div className="flex justify-between">
             <div className="flex md:hidden w-full">
-                <MdMenu className="text-3xl text-black block md:hidden ml-2 mt-4" onClick={handleRevealMenu}/>
+                <FaCaretDown className="text-3xl text-black block md:hidden ml-2 mt-4" onClick={handleRevealMenu}/>
             </div>
             </div>
             </div>
