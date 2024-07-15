@@ -57,6 +57,7 @@ export default function FooterComp() {
                         <Footer.Icon href="#" icon={BsTwitterX}/>
                         <Footer.Icon href="#" icon={BsWhatsapp}/>
                     </div>
+                    {/* <h2 className='text-center pt-3 text-sm text-blue-600'>Developed by Wilfred Mutwiri,<a className='text-red-600' href='https://wilfredmutwiri.vercel.app/'>View Portfolio</a></h2> */}
                 </div>
                     </div>
                 </Footer>

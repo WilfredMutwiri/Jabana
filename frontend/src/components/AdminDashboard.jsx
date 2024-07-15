@@ -14,7 +14,7 @@ import TeachersSquare from "./Database/TeachersSquare";
 import ParentsSquare from "./Database/ParentsSquare";
 import WorkersSquare from "./Database/WorkersSquare";
 import UpdatePage from "./UpdatePage";
-import { Button } from "flowbite-react";
+import { Button, ButtonGroup } from "flowbite-react";
 import { useNavigate } from 'react-router-dom';
 import {SERVER_URL} from '../constants/SERVER_URL'
 import { signoutSuccess } from '../../Redux/User/userSlice';
@@ -61,15 +61,18 @@ export default function AdminDashboard() {
             </div>
             </div>
             <section>
-                <div className="block md:flex w-11/12 m-auto mt-10 gap-5 md:gap-10">
+                <div className="block md:flex m-auto mt-10 gap-5 md:gap-10">
                     {/* left section */}
-                <div className={`-mt-7  bg-gray-200 rounded-md p-4 shadow-sm shadow-pink-5x00 w-auto mb-5 md:mb-0 ${menuVisible ? 'block':'hidden'}`}>
-                    <div>
-                        <img className='h-36 w-auto rounded-full mx-auto' src={profilePic} alt="profilePic"/>
+                <div className={`flex flex-col justify-between -mt-7 bg-gray-900 rounded-md ml-2 shadow-sm shadow-pink-500 w-auto mb-5 md:mb-0 ${menuVisible ? 'block':'hidden'} h-auto`}>
+                    <div className='p-4'>
+                    <div className=''>
+                        <img className='w-24 rounded-full mx-auto' src={profilePic} alt="profilePic"/>
                     </div>
-                    <h2 className='text-center p-3'>Admin <span className='text-pink-500'>@ {
+                    <h2 className='text-center text-white text-lg p-3'>Admin <span className='text-pink-500'>@ {
                     currentUser ? currentUser.userName:'Mark'}</span></h2>
-                    <div className='pt-4'>
+                    <Button className='w-full mt-2' gradientDuoTone="pinkToOrange">Profile</Button>
+                    </div>
+                    <div className='p-4 rounded-tr-3xl border-r-4 bg-gray-800'>
                         <ul className='flex flex-col gap-5 text-center'>
                             <li onClick={()=>showSection('updatePage')} className='p-2 hover:bg-gray-100 rounded-md text-orange-500 hover:text-pink-500 cursor-pointer flex gap-3'><span><FaDatabase className="text-xl"/></span>School Database</li>
 
@@ -79,7 +82,7 @@ export default function AdminDashboard() {
 
                             <li onClick={()=>showSection('workers')} className='p-2 hover:bg-gray-100 rounded-md text-orange-500 hover:text-pink-500 cursor-pointer flex gap-3'><span><GrUserWorker className="text-xl"/></span>Workers Square</li>
                         </ul>
-                        <Button className="w-full mt-4" outline onClick={handleSignout}>Exit</Button>
+                        <Button className="w-full mt-4" gradientDuoTone="pinkToOrange" outline onClick={handleSignout}>Exit</Button>
                     </div>
                     <IoMdClose className="text-center mt-4 mx-auto block md:hidden" onClick={handleCloseMenu}/>
                 </div>
