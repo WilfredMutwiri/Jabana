@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 import { signoutSuccess } from '../../Redux/User/userSlice';
 import { useNavigate } from 'react-router-dom';
 import {SERVER_URL} from '../constants/SERVER_URL'
+import logo from '../assets/logo.webp';
+
+
 export default function NavBar() {
   const dispatch=useDispatch();
   const Navigate=useNavigate()
@@ -31,8 +34,8 @@ export default function NavBar() {
     <Navbar fluid rounded className='w-full justify-between'>
        <Navbar.Brand>
        <div className="flex w-full justify-between">
-        <span className="text-orange-500 text-2xl bg-black p-1 rounded-md">J</span>
-        <h2 className="text-pink-700 text-2xl p-1">abana</h2>
+        <img className='w-auto h-20' src={logo} alt='logo'/>
+        <h2 className="font-semibold text-xl my-auto -ml-8">School<span className='text-pink-700'>Sync</span></h2>
         </div>
        </Navbar.Brand>
         <div className="block md:order-2 mad:flex justify-between text-lg font-semibold text-pink-700  text-center">
@@ -73,8 +76,8 @@ export default function NavBar() {
          </div>
           </div>
          <Navbar.Collapse>
-          <Navbar.Link href="#" active> Home</Navbar.Link>
-         <Navbar.Link href="#">About</Navbar.Link>
+          <Navbar.Link href="/landing" active> Home</Navbar.Link>
+         <Navbar.Link href="/about">About</Navbar.Link>
          <Navbar.Link href="#">Documentation</Navbar.Link>
          <Navbar.Link href="#">FAQ</Navbar.Link>
          <Navbar.Link href="#">Contact</Navbar.Link>

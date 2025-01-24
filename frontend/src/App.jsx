@@ -5,6 +5,13 @@ import AdminDashboard from "./components/AdminDashboard"
 import NavBar from "./components/NavBar"
 import Footer from "./components/FooterComp"
 import Landing from "./components/Landing"
+import ManageTeachers from "./components/Manage_Database/ManageTeachers"
+import Dashboard from "./components/Dashboard"
+import ManageParents from "./components/Manage_Database/ManageParents"
+import ManageWorkers from "./components/Manage_Database/ManageWorkers"
+import TeachersSquare from "./components/Messages/TeachersSquare"
+import ManageStudents from "./components/Manage_Database/ManageStudents"
+import About from "./components/About"
 function App() {
   return (
     <>
@@ -16,6 +23,12 @@ function App() {
         <Route path="/Signup" element={<Signup/>}/>
         <Route path="/SignIn" element={<SignIn/>}/>
         <Route path="/admin" element={<AdminDashboard/>}/>
+        <Route path="/ManageTeachers" element={<ManageTeachers/>}/>
+        <Route path="/manageParents" element={<ManageParents/>}/>
+        <Route path="/manageWorkers" element={<ManageWorkers/>}/>
+        <Route path="/manageStudents" element={<ManageStudents/>}/>
+        <Route path="/teachersSquare" element={<TeachersSquare/>}/>
+        <Route path="/about" element={<About/>}/>
       </Routes>
       <Footer/>
     </Router>

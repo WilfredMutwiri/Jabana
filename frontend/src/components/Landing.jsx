@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from "flowbite-react";
 import { Link } from "react-router-dom";
-import landingImg from '../images/landing.webp'
+import landingImg from '../assets/logo.webp';
 
 export default function Landing() {
     return (
@@ -11,23 +11,19 @@ export default function Landing() {
                 <img className='' src={landingImg} alt='landing image'/>
             </div>
             <div className='flex-1 leading-relaxed mt-10'>
-                <h2 className='font-bold text-3xl md:text-3xl text-pink-700'>The Ultimate Communication Manager</h2>
-                <p className='text-normal md:text-lg pt-3 md:pt-4'>Manage School communication with ease!</p>
-                <h2 className='text-normal md:text-lg'>Send messages to your team and other workers conviently.</h2>
-                <h3 className='text-sm md:text-normal italic'>You can also contact parents and keep them updated on school events and announcements.</h3>
+                <h2 className='font-bold text-3xl md:text-3xl text-pink-700'>The Ultimate School Management Solution</h2>
+                <div className='flex flex-col gap-2'>
+                <p className='text-normal pt-3 md:pt-4'><span className='font-semibold'>Stay Connected:</span> Easily send messages to teachers, staff, and parents.
+                </p>
+                <h2 className='text-normal'><span className='font-semibold'>Keep Everyone Updated:</span> Share school events, announcements, and updates in real time.</h2>
+                <h2 className='text-normal'><span className='font-semibold'>Simplify Management:</span> Track student data, performance, and more—all in one place.</h2>
+                <h3 className='text-sm md:text-normal italic font-semibold text-pink-800'>Take your school’s organization to the next level with <span className='text-black'>School</span>Sync!</h3>
+                </div>
+
             <Link to="/SignIn">
             <Button className="w-11/12 md:w-56 mt-14 mx-auto md:mx-0" gradientDuoTone="pinkToOrange">Get Started</Button>
             </Link>
             </div>
-            {/* <h2 className="text-center font-semibold text-lg">You can now Manage your School with ease!</h2>
-            <h2 className="text-center font-semibold text-sm md:text-lg ">Send messages to your team & workers convenietly</h2>
-            <div>
-                <img className="w-80  mx-auto" src="https://i.pinimg.com/originals/d8/d0/26/d8d026086d1857007558e3f350ee6ea4.gif"/>
-            </div>
-            <h3 className="text-center font-semibold text-sm">It's that simple...</h3> */}
-            {/* <Link to="/SignIn">
-            <Button className="mx-auto w-56 mt-4">Get Started</Button>
-            </Link> */}
             </div>
         </div>
     );

@@ -1,6 +1,7 @@
 import React from 'react'
 import {BsFacebook,BsInstagram,BsTwitterX,BsWhatsapp} from 'react-icons/bs'
 import { Footer, FooterTitle } from "flowbite-react";
+import logo from '../assets/logo.webp';
 
 export default function FooterComp() {
     return (
@@ -10,11 +11,11 @@ export default function FooterComp() {
                     <div className="w-full">
                     <div className="block md:flex justify-between">
                         <div className=''>
-                        <div className="flex ">
-                            <span className="text-orange-500 text-sm bg-black p-1 rounded-md">J</span>
-                            <h2 className="text-pink-700 text-sm p-1">abana</h2>
-                            </div>
-                            <h2 className="text-sm italic mb-3 mt-2 md:mt-0 md:mb-0">Your Ultimate Manager</h2>
+                        <div className="flex w-full justify-between">
+                        <img className='w-auto h-20' src={logo} alt='logo'/>
+                        <h2 className="font-semibold text-xl my-auto -ml-8">School<span className='text-pink-700'>Sync</span></h2>
+                        </div>
+                        <h2 className="text-sm italic mb-3 mt-2 md:mt-0 md:mb-0">Your Ultimate School Manager</h2>
                         </div>
                         <div className="grid grid-cols-3 gap-4">
                             <div>
@@ -50,14 +51,14 @@ export default function FooterComp() {
                     </div>
                     <Footer.Divider/>
                     <div>
-                    <Footer.Copyright by="Jabana" className='text-center' year={new Date().getFullYear()} />
+                    <Footer.Copyright by="SchoolSync" className='text-center' year={new Date().getFullYear()} />
                     <div className="flex gap-6 mt-2 w-40 mx-auto">
                         <Footer.Icon href="#" icon={BsFacebook}/>
                         <Footer.Icon href="#" icon={BsInstagram}/>
                         <Footer.Icon href="#" icon={BsTwitterX}/>
                         <Footer.Icon href="#" icon={BsWhatsapp}/>
                     </div>
-                    {/* <h2 className='text-center pt-3 text-sm text-blue-600'>Developed by Wilfred Mutwiri,<a className='text-red-600' href='https://wilfredmutwiri.vercel.app/'>View Portfolio</a></h2> */}
+                    <h2 className='text-center pt-3 text-sm text-blue-900 font-semibold'>Developed by Wilfred Mutwiri,<a className='text-pink-700' href='https://wilfredmutwiri.vercel.app/'>View Portfolio</a></h2>
                 </div>
                     </div>
                 </Footer>
