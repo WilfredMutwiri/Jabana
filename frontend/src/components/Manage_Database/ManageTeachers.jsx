@@ -24,7 +24,9 @@ export default function ManageTeachers() {
     const { workers, w_loading, w_error } = useSelector(state => state.worker);
     
     // modal
-    const [openModal,setOpenModal]=useState(false)
+    const [openModal,setOpenModal]=useState(false);
+    // teachers count
+    const [teachersCount,setTeachersCount]=useState(0);
     // handle change function
     const handleChange=(e)=>{
         setFormData({...formData,[e.target.id]:e.target.value.trim()})
@@ -62,8 +64,22 @@ export default function ManageTeachers() {
             dispatch(addTeacherFailure(error.message))
         }
     }
+
+    // get number of teachers
+    const getTeachersCount=async()=>{
+        const response=await fetch(`${SERVER_URL}/api/users/teachersCount`);
+        const data=await response.json();
+
+        if(response.ok){
+            setTeachersCount(data.teachersCount);
+        }else{
+            throw new data.error || "Error fetching teachers";
+        }
+    }
+    // useeffect
     useEffect(() => {
         dispatch(fetchTeachers());
+        getTeachersCount();
     }, [dispatch]);
 
     
@@ -138,7 +154,7 @@ export default function ManageTeachers() {
                     <div className='bg-gray-800 p-4 rounded-md'>
                         <FaUsers className='text-center text-2xl text-white mx-auto'/>
                         <h1 className='text-xl font-semibold text-white'>Total Teachers</h1>
-                        <p className='text-sm text-white font-semibold'>200</p>
+                        <p className='text-sm text-white font-semibold'>{teachersCount}</p>
                         </div>
                     <div className='bg-gray-800 p-4 rounded-md mt-4'>
                         <TiMessages className='text-center text-2xl text-white mx-auto'/>

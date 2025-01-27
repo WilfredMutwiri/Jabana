@@ -1,24 +1,19 @@
 const mongoose=require('mongoose')
-const parentSchema=new mongoose.Schema({
-    fullName:{
-        type:String,
-        required:true,
-        unique:false
-    },
-    email:{
-        type:String,
-        required:true,
-        unique:false
-    },
-    phoneNo:{
-        type:String,
-        required:true,
-        unique:false
-    },
+const studentSchema=new mongoose.Schema({
     studentName:{
         type:String,
         required:true,
-        unique:true
+        unique:false
+    },
+    parentEmail:{
+        type:String,
+        required:true,
+        unique:false
+    },
+    parentPhoneNo:{
+        type:String,
+        required:true,
+        unique:false
     },
     studentAdmNo:{
         type:String,
@@ -28,8 +23,14 @@ const parentSchema=new mongoose.Schema({
     studentClass:{
         type:String,
         required:true,
+        unique:false
+    },
+    parentName:{
+        type:String,
+        required:true,
+        unique:false
     }
 },{timestamps:true});
 
-const Parent=mongoose.model("Parent",parentSchema);
-module.exports=Parent;
+const Student=mongoose.model("Student",studentSchema);
+module.exports=Student;

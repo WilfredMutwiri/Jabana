@@ -13,11 +13,60 @@ import { Link } from 'react-router-dom';
 import { PiStudent } from "react-icons/pi";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import { TiMessages } from "react-icons/ti";
+import {SERVER_URL} from '../constants/SERVER_URL';
 
 
 export default function Dashboard() {
     const {currentUser}=useSelector(state=>state.user)
-    const [welcomeText,setWelcomeText]=useState("Welcome Back")
+    const [welcomeText,setWelcomeText]=useState("Welcome Back");
+
+    const [teachersCount,setTeachersCount]=useState(0);
+    const [parentsCount,setParentsCount]=useState(0);
+    const [workersCount,setWorkersCount]=useState(0);
+    const[studentsAmount,setStudentAmount]=useState(0);
+    // get teachers count
+    const getTeachersCount=async()=>{
+        const response=await fetch(`${SERVER_URL}/api/users/teachersCount`);
+        const data= await response.json();
+        if(response.ok){
+            setTeachersCount(data.teachersCount);
+        }else{
+            throw new data.error || "Error fetching teachers"
+        }
+    }
+// get parents count
+const getParentsCount=async()=>{
+    const response=await fetch(`${SERVER_URL}/api/users/parentsCount`);
+    const data= await response.json();
+    if(response.ok){
+        setParentsCount(data);
+    }else{
+        throw new data.error || "Error fetching parents"
+    }
+}
+
+//get workers count
+const getWorkersCount=async()=>{
+    const response=await fetch(`${SERVER_URL}/api/users/workersCount`);
+    const data=await response.json();
+    if(response.ok){
+        setWorkersCount(data);
+    }else{
+        throw new data.error || "Error fetching parents";
+    }
+
+}
+    //get students count
+    const getStudents=async()=>{
+        const response=await fetch(`${SERVER_URL}/api/users/studentsCount`);
+        const data=await response.json();
+        if(response.ok){
+            setStudentAmount(data);
+        }else{
+            throw new data.error || "Error fetching students value";
+        }
+    } 
+
     useEffect(()=>{
         const getTimeOfDay=()=>{
             const hours=new Date().getHours();
@@ -30,6 +79,10 @@ export default function Dashboard() {
             }
         }
         setWelcomeText(getTimeOfDay())
+        getTeachersCount();
+        getParentsCount();
+        getWorkersCount();
+        getStudents();
     },[])
   return (
     <div>
@@ -47,9 +100,9 @@ export default function Dashboard() {
                 <div className='w-full flex gap-6 bg-white rounded-md p-2 shadow-lg shadow-gray-300 hover:shadow-none'>
                     {/* teachers div */}
                     <div className='bg-slate-500 p-3 rounded-md flex-1 gap-4 text-white'>
-                        <GiTeacher className='text-xl mx-auto w-auto h-10 text-black'/>
+                        <GiTeacher className='text-xl mx-auto w-auto h-10 text-white'/>
                         <h2 className='font-semibold text-xl pt-3'>Total Teachers</h2>
-                        <h3 className='text-2xl font-semibold pt-3'>60</h3>
+                        <h3 className='text-2xl font-semibold pt-3'>{teachersCount}</h3>
                         <h2 className='flex justify-between pt-3'>
                         <p className='text-sm text-yellow-300'>*Current</p>
                         <Link to="/ManageTeachers">
@@ -58,10 +111,10 @@ export default function Dashboard() {
                         </h2>
                     </div>
                     {/* parents div */}
-                    <div className='p-3 rounded-md flex-1 bg-amber-500'>
-                        <GiLovers className='text-xl mx-auto w-auto h-10 text-black'/>
-                        <h2 className='font-semibold text-xl pt-3'>Total Parents</h2>
-                        <h3 className='text-2xl font-semibold pt-3'>5,000</h3>
+                    <div className='p-3 rounded-md flex-1 bg-yellow-600'>
+                        <GiLovers className='text-xl mx-auto w-auto h-10 text-white'/>
+                        <h2 className='font-semibold text-xl pt-3 text-white'>Total Parents</h2>
+                        <h3 className='text-2xl font-semibold pt-3 text-white'>{parentsCount}</h3>
                         <h2 className='flex justify-between pt-3'>
                         <p className='text-sm text-white'>*Current</p>
                         <Link to="/manageParents">
@@ -70,10 +123,10 @@ export default function Dashboard() {
                         </h2>
                     </div>
                     {/* workers div */}
-                    <div className='bg-pink-500 p-3 rounded-md flex-1'>
-                        <FaUserSecret className='text-xl mx-auto w-auto h-10 text-black'/>
-                        <h2 className='font-semibold text-lg pt-3'>Total Workers</h2>
-                        <h3 className='text-2xl font-semibold pt-3'>300</h3>
+                    <div className='bg-gray-700 p-3 rounded-md flex-1'>
+                        <FaUserSecret className='text-xl mx-auto w-auto h-10 text-white'/>
+                        <h2 className='font-semibold text-lg pt-3 text-white'>Total Workers</h2>
+                        <h3 className='text-2xl font-semibold pt-3 text-white'>{workersCount}</h3>
                         <h2 className='flex justify-between pt-3'>
                         <p className='text-sm text-white'>*Current</p>
                         <Link to="/manageWorkers">
@@ -92,7 +145,7 @@ export default function Dashboard() {
                 <div className='bg-gray-400 p-3 rounded-md flex-1'>
                         <PiStudent className='text-xl mx-auto w-auto h-10 text-black'/>
                         <h2 className='font-semibold text-lg pt-3'>Total Students</h2>
-                        <h3 className='text-2xl font-semibold pt-3'>5000</h3>
+                        <h3 className='text-2xl font-semibold pt-3'>{studentsAmount}</h3>
                         <h2 className='flex justify-between pt-3'>
                         <p className='text-sm text-white'>*Current</p>
                         <Link to="/manageStudents">

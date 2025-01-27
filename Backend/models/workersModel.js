@@ -16,8 +16,13 @@ const workerSchema=new mongoose.Schema({
         unique:true
     },
     Department:{
-            type:String,
-            required:true,
+        type:String,
+        required:true,
+    },
+    workerId:{
+        type:String,
+        required:true,
+        unique:true
     }
 },{timestamps:true});
 

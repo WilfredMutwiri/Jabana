@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchParents } from '../../../Redux/User/parentSlice';
+import { fetchWorkers } from '../../../Redux/User/workerSlice';
 import { IoTrashOutline } from "react-icons/io5";
 import {SERVER_URL} from '../../constants/SERVER_URL';
 import { Alert, Button, Label, Spinner, TextInput,Table,Modal } from "flowbite-react";
-import { addParentFailure,addParentStart,addParentSuccess } from '../../../Redux/User/parentSlice';
+import { addWorkerFailure,addWorkerStart,addWorkerSuccess } from '../../../Redux/User/workerSlice';
 import Sidebar from '../Sidebar';
 import { FaUsers } from "react-icons/fa";
 import { TiMessages } from "react-icons/ti";
@@ -13,15 +13,14 @@ import { TiMessages } from "react-icons/ti";
 export default function ManageWorkers() {
     const [formData,setFormData]=useState({});
     const [isloading,setIsLoading]=useState(false);
-    const [isError,setError]=useState(null);
+    const [error,setError]=useState(null);
     const [addSuccess,setAddSuccess]=useState(false);
     const dispatch=useDispatch();
-    const [visibleSection, setVisibleSection] = useState('dashboard');
-    const { teachers, loading, error } = useSelector(state => state.teacher);
-    const { parents, ploading, perror } = useSelector(state => state.parent);
     const { workers, w_loading, w_error } = useSelector(state => state.worker);
     // modal
-    const [openModal,setOpenModal]=useState(false)
+    const [openModal,setOpenModal]=useState(false);
+    // workers
+    const [totalWorkers,setTotalWorkers]=useState(0);
     // handle change function
     const handleChange=(e)=>{
         setFormData({...formData,[e.target.id]:e.target.value.trim()})
@@ -32,8 +31,8 @@ export default function ManageWorkers() {
         setError(false);
         setAddSuccess(false)
         try {
-            dispatch(addParentStart())
-            const res=await fetch(SERVER_URL+"/api/users/addParent",{
+            dispatch(addWorkerStart())
+            const res=await fetch(SERVER_URL+"/api/users/addWorker",{
                 method:"POST",
                 headers:{
                     'Content-Type':'application/json'
@@ -43,11 +42,11 @@ export default function ManageWorkers() {
             const data=await res.json();
             if(data.success===false){
                 setAddSuccess(false)
-                dispatch(addParentFailure(data.message))
+                dispatch(addWorkerFailure(data.message))
                 return;
             }
             if(res.ok){
-                dispatch(addParentSuccess(data))
+                dispatch(addWorkerSuccess(data))
                 setIsLoading(false);
                 setError(null);
                 setAddSuccess(true)
@@ -56,11 +55,23 @@ export default function ManageWorkers() {
             setError(error.message);
             setIsLoading(false);
             setAddSuccess(false)
-            dispatch(addParentFailure(error.message))
+            dispatch(addWorkerFailure(error.message))
+        }
+    }
+
+    // get workers count
+    const workersCount=async()=>{
+        const response=await fetch(`${SERVER_URL}/api/users/workersCount`);
+        const data=await response.json();
+        if(response.ok){
+            setTotalWorkers(data);
+        }else{
+            throw new data.error || "can't fetch workers' data";
         }
     }
     useEffect(() => {
-        dispatch(fetchParents());
+        dispatch(fetchWorkers());
+        workersCount();
     }, [dispatch]);
 
     return (
@@ -88,19 +99,19 @@ export default function ManageWorkers() {
                                     </Table.HeadCell>
                                 </Table.Head>
                                 <Table.Body className="divide-y">
-                                    {parents && parents.map((parent) => (
-                                        <Table.Row key={parent._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                    {workers && workers.map((worker) => (
+                                        <Table.Row key={worker._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                                {parent.fullName}
+                                                {worker.fullName}
                                             </Table.Cell>
                                             <Table.Cell className="text-black">
-                                                {parent.phoneNo}
+                                                {worker.phoneNo}
                                             </Table.Cell>
                                             <Table.Cell className="text-black">
-                                                {parent.studentName}
+                                                {worker.Department}
                                             </Table.Cell>
                                             <Table.Cell className="text-black">
-                                                {parent.studentAdmNo}
+                                                {worker.workerId}
                                             </Table.Cell>
                                             <Table.Cell className="text-black">
                                             <a href="#" className="font-medium text-red-600 hover:underline dark:text-cyan-500">View</a>
@@ -120,7 +131,7 @@ export default function ManageWorkers() {
                             <Label className='text-red-600' gradientDuoTone="pinkToOrange" outline>Show More </Label>
                             <div className="w-10/12 mx-auto mt-3">
                             </div>
-                            {loading &&
+                            {w_loading &&
                                 <>
                                     <Spinner size="sm" />
                                     <span className='ml-3'>Loading...</span>
@@ -137,7 +148,7 @@ export default function ManageWorkers() {
                         <div className='bg-gray-800 p-4 rounded-md'>
                             <FaUsers className='text-center text-2xl text-white mx-auto'/>
                             <h1 className='text-xl font-semibold text-white'>Total Workers</h1>
-                            <p className='text-sm text-white font-semibold'>200</p>
+                            <p className='text-sm text-white font-semibold'>{totalWorkers}</p>
                         </div>
                         <div className='bg-gray-800 p-4 rounded-md mt-4'>
                             <TiMessages className='text-center text-2xl text-white mx-auto'/>
@@ -187,7 +198,7 @@ export default function ManageWorkers() {
                 <TextInput
                 placeholder='Department of Work'
                 required
-                id='studentName'
+                id='Department'
                 type='text'
                 onChange={handleChange}
                 />
@@ -195,7 +206,7 @@ export default function ManageWorkers() {
                 <TextInput
                 placeholder="Worker's Id No:"
                 required
-                id='studentAdmNo'
+                id='workerId'
                 type='text'
                 onChange={handleChange}
                 />

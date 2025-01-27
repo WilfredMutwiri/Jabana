@@ -2,17 +2,19 @@ const Parent=require('../models/parentsModel');
 // const {errorHandler}=require('../utils/errorHandler');
 
 const addParent=async(req,res,next)=>{
-    const {fullName,email,phoneNo,studentName,studentAdmNo}=req.body;
+    const {fullName,email,phoneNo,studentName,studentAdmNo,studentClass}=req.body;
     if(
         !fullName ||
         !email ||
         !phoneNo ||
         !studentName ||
         !studentAdmNo ||
+        !studentClass ||
         fullName===""||
         email===""||
         phoneNo==="" ||
         studentName==="" ||
+        studentClass===""||
         !studentAdmNo===""
     ){
         console.log("Kindly fill all fields");
@@ -51,7 +53,17 @@ const getParents=async(req,res,next)=>{
     }
 }
 
+const getParentsCount=async(req,res)=>{
+    try {
+        const parentsCount=await Parent.countDocuments();
+        res.json(parentsCount);
+    } catch (error) {
+        return res.status(500).json({message:"Error fetching parents"})
+    }
+}
+
 module.exports={
     addParent,
-    getParents
+    getParents,
+    getParentsCount
 }

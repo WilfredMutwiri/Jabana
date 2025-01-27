@@ -2,19 +2,21 @@ const Worker=require('../models/workersModel');
 // const {errorHandler}=require('../utils/errorHandler');
 
 const addWorker=async(req,res,next)=>{
-    const {fullName,email,phoneNo,Department}=req.body;
+    const {fullName,email,phoneNo,Department,workerId}=req.body;
     if(
-        !fullName ||
-        !email ||
-        !phoneNo ||
-        !Department ||
+        !fullName||
+        !email||
+        !phoneNo|| 
+        !Department||
+        !workerId ||
         fullName===""||
         email===""||
-        phoneNo==="" ||
-        Department===""
+        phoneNo===""||
+        Department===""||
+        workerId===""
     ){
         console.log("Kindly fill all fields");
-        return res.status(400).json({success:false, message:"All fields must be filed"})
+        return res.status(400).json({success:false, message:"All fields must be filled"})
         // next(errorHandler(400,"Kindly fill all fields"))
     }
     try {
@@ -27,7 +29,8 @@ const addWorker=async(req,res,next)=>{
             fullName,
             email,
             phoneNo,
-            Department
+            Department,
+            workerId
         })
         await newWorker.save()
         return res.status(200).json({success:true,message:"New Worker Added Successfully"})
@@ -48,7 +51,17 @@ const getWorkers=async(req,res,next)=>{
     }
 }
 
+const workersCount=async(req,res)=>{
+    try {
+        const totalWorkers=await Worker.countDocuments();
+        res.json(totalWorkers);
+    } catch (error) {
+        return res.status(500).json({message:"Can't fetch workers"});
+    }
+}
+
 module.exports={
     addWorker,
-    getWorkers
+    getWorkers,
+    workersCount
 }

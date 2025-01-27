@@ -15,12 +15,12 @@ export default function ManageParents() {
     const [isError,setError]=useState(null);
     const [addSuccess,setAddSuccess]=useState(false);
     const dispatch=useDispatch();
-    const [visibleSection, setVisibleSection] = useState('dashboard');
-    const { teachers, loading, error } = useSelector(state => state.teacher);
-    const { parents, ploading, perror } = useSelector(state => state.parent);
-    const { workers, w_loading, w_error } = useSelector(state => state.worker);
+    const { parents, loading, error } = useSelector(state => state.parent);
     // modal
-    const [openModal,setOpenModal]=useState(false)
+    const [openModal,setOpenModal]=useState(false);
+    // parents
+    const [parentsCount,setParentsCount]=useState(0);
+    const [showAll,setShowAll]=useState(false);
     // handle change function
     const handleChange=(e)=>{
         setFormData({...formData,[e.target.id]:e.target.value.trim()})
@@ -58,9 +58,27 @@ export default function ManageParents() {
             dispatch(addParentFailure(error.message))
         }
     }
+
+    //get parents
+    const getParentsCount=async()=>{
+        const response=await fetch(`${SERVER_URL}/api/users/parentsCount`);
+        const data=await response.json();
+        if(response.ok){
+            setParentsCount(data);
+        }else{
+            throw new data.error || "Error fetching parents";
+        }
+    } 
+    // use effect
     useEffect(() => {
         dispatch(fetchParents());
+        getParentsCount();
     }, [dispatch]);
+
+    //toggle height
+    const toggleHeight=()=>{
+        setShowAll(!showAll)
+    }
     return (
         <div>
             <div className='flex justify-between gap-4 w-[95%]  mx-auto'>
@@ -69,7 +87,7 @@ export default function ManageParents() {
                 </div>
                 <div className="flex-1 gap-4 mt-4">
                     {/* Teachers div */}
-                    <div className={`bg-gray-200 p-1 rounded-md`}>
+                    <div className={`bg-gray-200 p-1 rounded-md overflow-hidden ${showAll?"h-[500px]":"h-auto"}`}>
                         <div className='flex justify-between bg-gray-300 rounded-md p-2'>
                             <h2 className="flex-1 mx-auto p-2 text-left text-lg text-pink-700">Available Parents</h2>
                         </div>
@@ -114,10 +132,7 @@ export default function ManageParents() {
                             </Table>
                         </div>
                         <div className="bg-white p-3">
-                            <hr />
-                            <Label className='text-red-600' gradientDuoTone="pinkToOrange" outline>Show More </Label>
-                            <div className="w-10/12 mx-auto mt-3">
-                            </div>
+
                             {loading &&
                                 <>
                                     <Spinner size="sm" />
@@ -129,6 +144,9 @@ export default function ManageParents() {
                             }
                         </div>
                     </div>
+                    <div className='z-50 relative p-3 rounded-md border-b-2 border-gray-300'>
+                    <Label onClick={toggleHeight} className='text-white bg-cyan-900 p-2 mt-3 rounded-md' gradientDuoTone="pinkToOrange" outline>{showAll?"Show All":"Show Less"}</Label>
+                    </div>
                 </div>
 
                  {/* options div */}
@@ -136,7 +154,7 @@ export default function ManageParents() {
                                         <div className='bg-gray-800 p-4 rounded-md'>
                                             <FaUsers className='text-center text-2xl text-white mx-auto'/>
                                             <h1 className='text-xl font-semibold text-white'>Total Parents</h1>
-                                            <p className='text-sm text-white font-semibold'>200</p>
+                                            <p className='text-sm text-white font-semibold'>{parentsCount}</p>
                                         </div>
                                         <div className='bg-gray-800 p-4 rounded-md mt-4'>
                                             <TiMessages className='text-center text-2xl text-white mx-auto'/>

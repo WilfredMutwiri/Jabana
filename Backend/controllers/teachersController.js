@@ -43,9 +43,20 @@ const getTeachers=async(req,res,next)=>{
         return res.status(500).json({message:error.message})
         
     }
+
+}
+
+const getTeacherCount=async(req,res)=>{
+    try {
+        const teachersCount=await Teacher.countDocuments();
+        res.json({teachersCount});
+    } catch (error) {
+        res.status(500).json({error:"Can't retrieve number of teachers"});
+    }
 }
 
 module.exports={
     addTeacher,
-    getTeachers
+    getTeachers,
+    getTeacherCount
 }

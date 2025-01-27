@@ -1,7 +1,8 @@
 import React from 'react'
 import {configureStore,combineReducers} from '@reduxjs/toolkit'
 import userReducer from './User/userSlice';
-import teacherReducer from './User/teacherSlice'
+import teacherReducer from './User/teacherSlice';
+import studentReducer from './User/studentSlice'
 import parentReducer from './User/parentSlice'
 import workerReducer from './User/workerSlice'
 import {persistReducer} from 'redux-persist';
@@ -12,7 +13,8 @@ const rootReducer=combineReducers({
     user:userReducer,
     teacher:teacherReducer,
     parent:parentReducer,
-    worker:workerReducer
+    worker:workerReducer,
+    student:studentReducer
 });
 
 const persistConfig={

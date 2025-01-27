@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchParents } from '../../../Redux/User/parentSlice';
+import { fetchStudents } from '../../../Redux/User/studentSlice';
 import { IoTrashOutline } from "react-icons/io5";
 import {SERVER_URL} from '../../constants/SERVER_URL';
 import { Alert, Button, Label, Spinner, TextInput,Table,Modal } from "flowbite-react";
-import { addParentFailure,addParentStart,addParentSuccess } from '../../../Redux/User/parentSlice';
+import { addStudentFailure,addStudentStart,addStudentSuccess } from '../../../Redux/User/studentSlice';
 import Sidebar from '../Sidebar';
 import { FaUsers } from "react-icons/fa";
-import { TiMessages } from "react-icons/ti";
 
 
 export default function ManageStudents() {
@@ -16,12 +15,10 @@ export default function ManageStudents() {
     const [isError,setError]=useState(null);
     const [addSuccess,setAddSuccess]=useState(false);
     const dispatch=useDispatch();
-    const [visibleSection, setVisibleSection] = useState('dashboard');
-    const { teachers, loading, error } = useSelector(state => state.teacher);
-    const { parents, ploading, perror } = useSelector(state => state.parent);
-    const { workers, w_loading, w_error } = useSelector(state => state.worker);
+    const {students, sloading, serror } = useSelector(state => state.student);
     // modal
-    const [openModal,setOpenModal]=useState(false)
+    const [openModal,setOpenModal]=useState(false);
+    const[studentsAmount,setStudentAmount]=useState(0);
     // handle change function
     const handleChange=(e)=>{
         setFormData({...formData,[e.target.id]:e.target.value.trim()})
@@ -32,8 +29,8 @@ export default function ManageStudents() {
         setError(false);
         setAddSuccess(false)
         try {
-            dispatch(addParentStart())
-            const res=await fetch(SERVER_URL+"/api/users/addParent",{
+            dispatch(addStudentStart())
+            const res=await fetch(SERVER_URL+"/api/users/addStudent",{
                 method:"POST",
                 headers:{
                     'Content-Type':'application/json'
@@ -43,11 +40,11 @@ export default function ManageStudents() {
             const data=await res.json();
             if(data.success===false){
                 setAddSuccess(false)
-                dispatch(addParentFailure(data.message))
+                dispatch(addStudentFailure(data.message))
                 return;
             }
             if(res.ok){
-                dispatch(addParentSuccess(data))
+                dispatch(addStudentSuccess(data))
                 setIsLoading(false);
                 setError(null);
                 setAddSuccess(true)
@@ -56,11 +53,24 @@ export default function ManageStudents() {
             setError(error.message);
             setIsLoading(false);
             setAddSuccess(false)
-            dispatch(addParentFailure(error.message))
+            dispatch(addStudentFailure(error.message))
         }
     }
+
+
+    //get studenst count
+    const getStudents=async()=>{
+        const response=await fetch(`${SERVER_URL}/api/users/studentsCount`);
+        const data=await response.json();
+        if(response.ok){
+            setStudentAmount(data);
+        }else{
+            throw new data.error || "Error fetching students value";
+        }
+    } 
     useEffect(() => {
-        dispatch(fetchParents());
+        dispatch(fetchStudents());
+        getStudents();
     }, [dispatch]);
 
     return (
@@ -88,19 +98,19 @@ export default function ManageStudents() {
                                     </Table.HeadCell>
                                 </Table.Head>
                                 <Table.Body className="divide-y">
-                                    {parents && parents.map((parent) => (
-                                        <Table.Row key={parent._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                    {students && students.map((student) => (
+                                        <Table.Row key={student._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                                {parent.fullName}
+                                                {student.studentName}
                                             </Table.Cell>
                                             <Table.Cell className="text-black">
-                                                {parent.phoneNo}
+                                                {student.parentPhoneNo}
                                             </Table.Cell>
                                             <Table.Cell className="text-black">
-                                                {parent.studentName}
+                                                {student.studentClass}
                                             </Table.Cell>
                                             <Table.Cell className="text-black">
-                                                {parent.studentAdmNo}
+                                                {student.studentAdmNo}
                                             </Table.Cell>
                                             <Table.Cell className="text-black">
                                                 <a href="#" className="font-medium text-red-600 hover:underline dark:text-cyan-500">View</a>
@@ -120,14 +130,14 @@ export default function ManageStudents() {
                             <Label className='text-red-600' gradientDuoTone="pinkToOrange" outline>Show More </Label>
                             <div className="w-10/12 mx-auto mt-3">
                             </div>
-                            {loading &&
+                            {sloading &&
                                 <>
                                     <Spinner size="sm" />
                                     <span className='ml-3'>Loading...</span>
                                 </>
                             }
                             {
-                                error && <Alert className='mt-4' color="failure">{error}</Alert>
+                                serror && <Alert className='mt-4' color="failure">{serror}</Alert>
                             }
                         </div>
                     </div>
@@ -137,7 +147,7 @@ export default function ManageStudents() {
                         <div className='bg-gray-800 p-4 rounded-md'>
                             <FaUsers className='text-center text-2xl text-white mx-auto'/>
                             <h1 className='text-xl font-semibold text-white'>Total Students</h1>
-                            <p className='text-sm text-white font-semibold'>200</p>
+                            <p className='text-sm text-white font-semibold'>{studentsAmount}</p>
                         </div>
                         <div className='bg-gray-800 p-4 rounded-md mt-4'>
                             <h1 className='text-2xl font-semibold text-center text-white'>+</h1>
@@ -154,44 +164,52 @@ export default function ManageStudents() {
             <div className="w-full">
             <div className="w-full md:w-10/12 mx-auto bg-gray-800 mt-4 p-3 rounded-md ">
             <form className="flex flex-col gap-2 " onSubmit={handleSubmit}>
-                <Label value="Full Name" id="parentName" className="text-white"/>
+                <Label value="Full Name" id="studentName" className="text-white"/>
                 <TextInput 
-                placeholder="Enter Full Name"
+                placeholder="Enter Student Name"
                 type="text"
                 required
-                id='fullName'
+                id='studentName'
                 onChange={handleChange}
                 />
                 
-                <Label value="Email Address" id="email" className="text-white"/>
+                <Label value="Parent Name" id="parentName" className="text-white"/>
                 <TextInput 
-                placeholder="Enter Email Address"
+                placeholder="Enter Parent Name"
                 required
-                type="email"
-                id='email'
-                onChange={handleChange}
-                />
-                <Label value="phone number" id="phoneNo" className="text-white"/>
-                <TextInput 
-                placeholder="Enter Phone No:"
-                required
-                id="phoneNo"
                 type="text"
+                id='parentName'
                 onChange={handleChange}
                 />
-                <Label value='Department' id='stdName' className='text-white'/>
-                <TextInput
-                placeholder='Department of Work'
+                <Label value="parent Email" id="parentEmail" className="text-white"/>
+                <TextInput 
+                placeholder="Enter Parent's Email:"
                 required
-                id='studentName'
+                id="parentEmail"
+                type="email"
+                onChange={handleChange}
+                />
+                <Label value='parent phone no:' id='parentPhoneNo' className='text-white'/>
+                <TextInput
+                placeholder='Parent Phone No:'
+                required
+                id='parentPhoneNo'
                 type='text'
                 onChange={handleChange}
                 />
-                <Label value='ID No:' id='stdAdmNo' className='text-white'/>
+                <Label value='StudentID No:' id='studentAdmNo' className='text-white'/>
                 <TextInput
-                placeholder="Worker's Id No:"
+                placeholder='Student Adm No:'
                 required
                 id='studentAdmNo'
+                type='text'
+                onChange={handleChange}
+                />
+                <Label value='Student Class' id='studentClass' className='text-white'/>
+                <TextInput
+                placeholder='Student Class'
+                required
+                id='studentClass'
                 type='text'
                 onChange={handleChange}
                 />
@@ -200,19 +218,19 @@ export default function ManageStudents() {
                         isloading ? 
                         <>
                         <Spinner size="sm"/>
-                        <span className='ml-3 text-red-600'>Adding new Worker...</span>
-                        </>: "Add Worker"
+                        <span className='ml-3 text-red-600'>Adding new Student...</span>
+                        </>: "Add Student"
                     }
                 </Button>
                 {
-                    error && <Alert color="failure" className='text-black'>
-                        {error.message}
+                    serror && <Alert color="failure" className='text-black'>
+                        {serror.message}
                     </Alert>
                 }
                 {
                     addSuccess &&
                     <Alert className='mt-4' color="success">
-                        New Worker Added Successfully!
+                        New Student Added Successfully!
                     </Alert>
                 
                 }
