@@ -26,7 +26,8 @@ export default function ManageWorkers() {
     const handleChange=(e)=>{
         setFormData({...formData,[e.target.id]:e.target.value.trim()})
     }
-    const handleSubmit=async()=>{
+    const handleSubmit=async(e)=>{
+        e.preventDefault();
         setIsLoading(true);
         setError(false);
         setAddSuccess(false)

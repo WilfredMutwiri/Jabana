@@ -30,7 +30,8 @@ export default function ManageTeachers() {
         setFormData({...formData,[e.target.id]:e.target.value.trim()})
     }
     // handle submit function
-    const handleSubmit=async()=>{
+    const handleSubmit=async(e)=>{
+        e.preventDefault();
         setIsLoading(true);
         setError(null);
         setAddSuccess(false);
