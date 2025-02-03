@@ -8,6 +8,7 @@ import { addWorkerFailure,addWorkerStart,addWorkerSuccess } from '../../../Redux
 import Sidebar from '../Sidebar';
 import { FaUsers } from "react-icons/fa";
 import { TiMessages } from "react-icons/ti";
+import { Link } from 'react-router-dom';
 
 
 export default function ManageWorkers() {
@@ -25,8 +26,7 @@ export default function ManageWorkers() {
     const handleChange=(e)=>{
         setFormData({...formData,[e.target.id]:e.target.value.trim()})
     }
-    const handleSubmit=async(e)=>{
-        e.preventDefault();
+    const handleSubmit=async()=>{
         setIsLoading(true);
         setError(false);
         setAddSuccess(false)
@@ -50,6 +50,11 @@ export default function ManageWorkers() {
                 setIsLoading(false);
                 setError(null);
                 setAddSuccess(true)
+            }else if(!res.ok){
+                dispatch(addWorkerFailure(data));
+                setIsLoading(false);
+                setError(data.message);
+                setAddSuccess(false);
             }
         } catch (error) {
             setError(error.message);
@@ -83,8 +88,8 @@ export default function ManageWorkers() {
                 <div className="flex-1 gap-4 mt-4">
                     {/* Teachers div */}
                     <div className={`bg-gray-200 p-1 rounded-md`}>
-                        <div className='flex justify-between bg-gray-300 rounded-md p-2'>
-                            <h2 className="flex-1 mx-auto p-2 text-left text-lg text-pink-700">Available Workers</h2>
+                        <div className='flex justify-between bg-gray-200 rounded-md p-2'>
+                            <h2 className="flex-1 mx-auto p-2 text-left text-lg font-semibold text-cyan-700">Available Workers</h2>
                         </div>
                         <div className="overflow-x-auto">
                             <Table hoverable>
@@ -114,7 +119,9 @@ export default function ManageWorkers() {
                                                 {worker.workerId}
                                             </Table.Cell>
                                             <Table.Cell className="text-black">
-                                            <a href="#" className="font-medium text-red-600 hover:underline dark:text-cyan-500">View</a>
+                                                <Link to={`/worker/${worker._id}`}>
+                                                <a href="#" className="font-medium text-cyan-700 hover:text-red-600 hover:underline">View</a>
+                                                </Link>
                                             </Table.Cell>
                                             <Table.Cell>
                                                 <a href="#" className="font-medium text-red-600 hover:underline dark:text-cyan-500">
@@ -128,7 +135,7 @@ export default function ManageWorkers() {
                         </div>
                         <div className="bg-white p-3">
                             <hr />
-                            <Label className='text-red-600' gradientDuoTone="pinkToOrange" outline>Show More </Label>
+                            <Label className='text-cyan-700' gradientDuoTone="pinkToOrange" outline>Show More </Label>
                             <div className="w-10/12 mx-auto mt-3">
                             </div>
                             {w_loading &&
@@ -145,18 +152,18 @@ export default function ManageWorkers() {
                 </div>
                 {/* options div */}
                     <div className='bg-gray-100 p-4 rounded-md shadow-sm shadow-gray-400'>
-                        <div className='bg-gray-800 p-4 rounded-md'>
+                        <div className='bg-cyan-700 p-4 rounded-md'>
                             <FaUsers className='text-center text-2xl text-white mx-auto'/>
                             <h1 className='text-xl font-semibold text-white'>Total Workers</h1>
                             <p className='text-sm text-white font-semibold'>{totalWorkers}</p>
                         </div>
-                        <div className='bg-gray-800 p-4 rounded-md mt-4'>
+                        <div className='bg-cyan-700 p-4 rounded-md mt-4'>
                             <TiMessages className='text-center text-2xl text-white mx-auto'/>
-                            <Button className='text-xs w-full mt-2' gradientDuoTone="pinkToOrange" onClick={() =>setOpenModal(true)}>Send Message</Button>
+                            <Button className='text-xs w-full mt-2' outline onClick={() =>setOpenModal(true)}>Send Message</Button>
                         </div>
-                        <div className='bg-gray-800 p-4 rounded-md mt-4'>
+                        <div className='bg-cyan-700 p-4 rounded-md mt-4'>
                             <h1 className='text-2xl font-semibold text-center text-white'>+</h1>
-                            <Button className='text-xs w-full mt-2' gradientDuoTone="pinkToOrange" onClick={() =>setOpenModal(true)}>Add New Worker</Button>
+                            <Button className='text-xs w-full mt-2'outline onClick={() =>setOpenModal(true)}>Add New Worker</Button>
                         </div>
                     </div>
 
@@ -167,76 +174,162 @@ export default function ManageWorkers() {
                 <Modal.Header>Add New Worker</Modal.Header>
             <Modal.Body>
             <div className="w-full">
-            <div className="w-full md:w-10/12 mx-auto bg-gray-800 mt-4 p-3 rounded-md ">
-            <form className="flex flex-col gap-2 " onSubmit={handleSubmit}>
-                <Label value="Full Name" id="parentName" className="text-white"/>
+            <h2 className='text-center text-sm text-cyan-700'>Inputs with * are must be filled!</h2>
+            <div className="w-full md:w-10/12 mx-auto mt-4 p-3 rounded-md  text-black">
+            <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+            <div className='flex flex-row gap-6 w-full'>
+                <div className='flex-1'>
+                    <Label value="Full Name*" id="workerName" className=""/>
+                    <TextInput 
+                    placeholder="Enter Full Name"
+                    type="text"
+                    onChange={handleChange}
+                    id='fullName'
+                    required
+                    />
+            
+                    <Label value="Email*" id="workerEmail" className=""/>
+                    <TextInput 
+                    placeholder="Enter Email Address"
+                    type="email"
+                    onChange={handleChange}
+                    id='email'
+                    required
+                    />
+            
+                    <Label value="Phone Number*" id="workerPhone" className=""/>
+                    <TextInput 
+                    placeholder="Enter Phone No:"
+                    type="text"
+                    onChange={handleChange}
+                    id='phoneNo'
+                    required
+                    />
+            
+                    <Label value="Place Of Birth" id="placeOfBirth" className=""/>
+                    <TextInput 
+                    placeholder="Enter Place of Birth"
+                    type="text"
+                    onChange={handleChange}
+                    id='placeOfBirth'
+                    />
+            
+                    <Label value="National Id" id="nationalId" className=""/>
+                    <TextInput 
+                    placeholder="14567878"
+                    type="number"
+                    onChange={handleChange}
+                    id='nationalId'
+                    />
+            
+                    <Label value="Box Office" id="boxOffice" className=""/>
+                    <TextInput 
+                    placeholder="Enter Box Office"
+                    type="text"
+                    onChange={handleChange}
+                    id='boxOffice'
+                    />
+            
+                    <Label value="Marital Status" id="maritalStatus" className=""/>
+                    <TextInput 
+                    placeholder="Single"
+                    type="text"
+                    onChange={handleChange}
+                    id='maritalStatus'
+                    />
+                </div>
+            
+                <div className='flex-1'>
+                <Label value="Title*" id="title" className=""/>
                 <TextInput 
-                placeholder="Enter Full Name"
+                placeholder="Mr/Mrs"
                 type="text"
-                required
-                id='fullName'
                 onChange={handleChange}
-                />
-                
-                <Label value="Email Address" id="email" className="text-white"/>
-                <TextInput 
-                placeholder="Enter Email Address"
+                id='title'
                 required
-                type="email"
-                id='email'
-                onChange={handleChange}
                 />
-                <Label value="phone number" id="phoneNo" className="text-white"/>
+            
+                <Label value="Sex" id="sex" className=""/>
                 <TextInput 
-                placeholder="Enter Phone No:"
-                required
-                id="phoneNo"
+                placeholder="Male/Female"
                 type="text"
                 onChange={handleChange}
+                id='sex'
                 />
-                <Label value='Department' id='stdName' className='text-white'/>
-                <TextInput
-                placeholder='Department of Work'
+            
+                <Label value="Nationality*" id="nationality" className=""/>
+                <TextInput 
+                placeholder="Kenya"
+                type="text"
+                onChange={handleChange}
+                id='nationality'
                 required
+                />
+            
+                <Label value="Department*" id="Department" className=""/>
+                <TextInput 
+                placeholder="Enter department of work"
+                type="text"
+                onChange={handleChange}
                 id='Department'
-                type='text'
-                onChange={handleChange}
-                />
-                <Label value='ID No:' id='stdAdmNo' className='text-white'/>
-                <TextInput
-                placeholder="Worker's Id No:"
                 required
-                id='workerId'
-                type='text'
-                onChange={handleChange}
                 />
-                <Button className="w-full mt-4" gradientDuoTone="pinkToOrange" outline type='submit' disabled={isloading}>
-                    {
-                        isloading ? 
-                        <>
-                        <Spinner size="sm"/>
-                        <span className='ml-3 text-red-600'>Adding new Worker...</span>
-                        </>: "Add Worker"
-                    }
-                </Button>
-                {
-                    error && <Alert color="failure" className='text-black'>
-                        {error.message}
-                    </Alert>
-                }
-                {
-                    addSuccess &&
-                    <Alert className='mt-4' color="success">
-                        New Worker Added Successfully!
-                    </Alert>
-                
-                }
-            </form>
-            </div>
+            
+                <Label value="Work Status" id="status" className=""/>
+                <TextInput 
+                placeholder="Active/Inactive/Pending"
+                type="text"
+                onChange={handleChange}
+                id='status'
+                />
+            
+                <Label value="Work ID*" id="workerId" className=""/>
+                <TextInput 
+                placeholder="Enter work ID"
+                type="text"
+                onChange={handleChange}
+                id='workerId'
+                required
+                />
+            
+                <Label value="Religion" id="religion" className=""/>
+                <TextInput 
+                placeholder="Christian/Muslim/Hindu"
+                type="text"
+                onChange={handleChange}
+                id='religion'
+                />
+                </div>
+                            </div>
+                            <div>
+                            <Button className="w-full mt-4" type='submit' disabled={isloading} outline>
+                                {
+                                    isloading ?
+                                    <>
+                                    <Spinner size="sm"/>
+                                    <span className='ml-3 text-red-600'>Adding New Worker...</span>
+                                    </> : 'Add new Worker'
+                                }
+                            </Button>
+                            {
+                                error && 
+                                <Alert color="failure">
+                                    {error.message}
+                                </Alert>
+                            }
+                            {
+                                addSuccess && 
+                                <Alert color="success">
+                                    New Worker Added Successfuly!
+                                </Alert>
+                            }
+                            </div>
+                        </form>
+                        </div>
         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button gradientDuoTone="pinkToOrange" onClick={()=>setOpenModal(false)}>Cancel</Button>
+                        <Button onClick={()=>setOpenModal(false)}>Cancel</Button>
                     </Modal.Footer>
                 </Modal>
             </div>

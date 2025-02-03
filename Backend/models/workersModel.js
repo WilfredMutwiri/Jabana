@@ -23,6 +23,33 @@ const workerSchema=new mongoose.Schema({
         type:String,
         required:true,
         unique:true
+    },
+    sex:{
+        type:String
+    },
+    placeOfBirth:{
+        type:String
+    },
+    nationalId:{
+        type:String
+    },
+    title:{
+        type:String
+    },
+    nationality:{
+        type:String
+    },
+    boxOffice:{
+        type:String
+    },
+    maritalStatus:{
+        type:String
+    },
+    religion:{
+        type:String
+    },
+    status:{
+        type:String
     }
 },{timestamps:true});
 

@@ -82,8 +82,8 @@ export default function ManageStudents() {
                 <div className="flex-1 gap-4 mt-4">
                     {/* Teachers div */}
                     <div className={`bg-gray-200 p-1 rounded-md`}>
-                        <div className='flex justify-between bg-gray-300 rounded-md p-2'>
-                            <h2 className="flex-1 mx-auto p-2 text-left text-lg text-pink-700">Available Students</h2>
+                        <div className='flex justify-between bg-gray-200 rounded-md p-2'>
+                            <h2 className="flex-1 mx-auto p-2 text-left text-l font-semibold text-cyan-700">Available Students</h2>
                         </div>
                         <div className="overflow-x-auto">
                             <Table hoverable>
@@ -113,7 +113,7 @@ export default function ManageStudents() {
                                                 {student.studentAdmNo}
                                             </Table.Cell>
                                             <Table.Cell className="text-black">
-                                                <a href="#" className="font-medium text-red-600 hover:underline dark:text-cyan-500">View</a>
+                                                <a href="#" className="font-medium text-cyan-700 hover:underline hover:text-red-600">View</a>
                                             </Table.Cell>
                                             <Table.Cell>
                                                 <a href="#" className="font-medium text-red-600 hover:underline dark:text-cyan-500">
@@ -127,7 +127,7 @@ export default function ManageStudents() {
                         </div>
                         <div className="bg-white p-3">
                             <hr />
-                            <Label className='text-red-600' gradientDuoTone="pinkToOrange" outline>Show More </Label>
+                            <Label className='text-cyan-700' gradientDuoTone="pinkToOrange" outline>Show More </Label>
                             <div className="w-10/12 mx-auto mt-3">
                             </div>
                             {sloading &&
@@ -144,14 +144,14 @@ export default function ManageStudents() {
                 </div>
                 {/* options div */}
                     <div className='bg-gray-100 p-4 rounded-md shadow-sm shadow-gray-400'>
-                        <div className='bg-gray-800 p-4 rounded-md'>
+                        <div className='bg-cyan-700 p-4 rounded-md'>
                             <FaUsers className='text-center text-2xl text-white mx-auto'/>
                             <h1 className='text-xl font-semibold text-white'>Total Students</h1>
                             <p className='text-sm text-white font-semibold'>{studentsAmount}</p>
                         </div>
-                        <div className='bg-gray-800 p-4 rounded-md mt-4'>
+                        <div className='bg-cyan-700 p-4 rounded-md mt-4'>
                             <h1 className='text-2xl font-semibold text-center text-white'>+</h1>
-                            <Button className='text-xs w-full mt-2' gradientDuoTone="pinkToOrange" onClick={() =>setOpenModal(true)}>Add New Student</Button>
+                            <Button className='text-xs w-full mt-2' outline onClick={() =>setOpenModal(true)}>Add New Student</Button>
                         </div>
                     </div>
 
@@ -213,7 +213,7 @@ export default function ManageStudents() {
                 type='text'
                 onChange={handleChange}
                 />
-                <Button className="w-full mt-4" gradientDuoTone="pinkToOrange" outline type='submit' disabled={isloading}>
+                <Button className="w-full mt-4" outline type='submit' disabled={isloading}>
                     {
                         isloading ? 
                         <>
@@ -239,7 +239,7 @@ export default function ManageStudents() {
         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button gradientDuoTone="pinkToOrange" onClick={()=>setOpenModal(false)}>Cancel</Button>
+                        <Button  onClick={()=>setOpenModal(false)}>Cancel</Button>
                     </Modal.Footer>
                 </Modal>
             </div>

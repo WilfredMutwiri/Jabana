@@ -2,7 +2,22 @@ const Teacher=require('../models/teachersModel');
 // const {errorHandler}=require('../utils/errorHandler');
 
 const addTeacher=async(req,res,next)=>{
-    const {fullName,email,phoneNo}=req.body;
+    const {
+        fullName,
+        email,
+        phoneNo,
+        sex,
+        placeOfBirth,
+        nationalId,
+        boxOffice,
+        Role,
+        classInCharge,
+        Employer,
+        title,
+        nationality,
+        maritalStatus,
+        religion
+    }=req.body;
     if(
         !fullName ||
         !email ||
@@ -24,7 +39,19 @@ const addTeacher=async(req,res,next)=>{
         const newTeacher=new Teacher({
             fullName,
             email,
-            phoneNo
+            phoneNo,
+            sex,
+            placeOfBirth,
+            nationalId,
+            boxOffice,
+            maritalStatus,
+            Role,
+            classInCharge,
+            Employer,
+            title,
+            nationality,
+            maritalStatus,
+            religion
         })
         await newTeacher.save()
         return res.status(200).json({success:true,message:"New Teacher Added Successfully"})
@@ -55,8 +82,37 @@ const getTeacherCount=async(req,res)=>{
     }
 }
 
+//get a single teacher data
+const getTeacherInfo=async(req,res)=>{
+    try {
+        const teacher=await Teacher.findById(req.params.id);
+        if(!teacher){
+            return res.status(404).json({message:"Teacher not found"});
+        }else{
+            res.json(teacher);
+        }
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+};
+//delete a teacher
+const deleteTeacher=async(req,res)=>{
+    try {
+        const teacher=await Teacher.findByIdAndDelete(req.params.id);
+        if(!teacher){
+            return res.status(404).json({message:"Teacher not found"});
+        }else{
+            res.json({message:"Teacher deleted Successfully!"});
+        }
+    } catch (error) {
+        res.status(500).json({message:error.message});
+    }
+}
+
 module.exports={
     addTeacher,
     getTeachers,
-    getTeacherCount
+    getTeacherCount,
+    getTeacherInfo,
+    deleteTeacher
 }

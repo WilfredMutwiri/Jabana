@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Label, Modal, Spinner,Table,TextInput } from "flowbite-react";
+import { Alert, Button, Label, Modal, Spinner,Table,TextInput} from "flowbite-react";
 import ParentsUpdate from "../DatabaseUpdate/ParentsUpdate";
 import WorkersUpdate from "../DatabaseUpdate/WorkersUpdate";
 import { useSelector, useDispatch } from 'react-redux';
@@ -20,8 +20,6 @@ export default function ManageTeachers() {
     const dispatch=useDispatch();
     const [visibleSection, setVisibleSection] = useState('dashboard');
     const { teachers, loading, error } = useSelector(state => state.teacher);
-    const { parents, ploading, perror } = useSelector(state => state.parent);
-    const { workers, w_loading, w_error } = useSelector(state => state.worker);
     
     // modal
     const [openModal,setOpenModal]=useState(false);
@@ -32,8 +30,7 @@ export default function ManageTeachers() {
         setFormData({...formData,[e.target.id]:e.target.value.trim()})
     }
     // handle submit function
-    const handleSubmit=async(e)=>{
-        e.preventDefault();
+    const handleSubmit=async()=>{
         setIsLoading(true);
         setError(null);
         setAddSuccess(false);
@@ -82,7 +79,16 @@ export default function ManageTeachers() {
         getTeachersCount();
     }, [dispatch]);
 
-    
+    //delete teacher
+    const handleTeacherDelete=async()=>{
+        const response=await fetch(`${SERVER_URL}/api/users/deleteTeacher/${teachers._id}`);
+        const data=response.json();
+        if(response.ok){
+            console.log("Teacher deleted ")
+        }else{
+            console.log(data.error)
+        }
+    }
 
     return (
         <div>
@@ -93,8 +99,8 @@ export default function ManageTeachers() {
                 <div className="flex-1 gap-4 mt-4">
                     {/* Teachers div */}
                     <div className={`bg-gray-200 p-1 rounded-md`}>
-                        <div className='flex justify-between bg-gray-300 rounded-md p-2'>
-                            <h2 className="flex-1 mx-auto p-2 text-left text-lg text-pink-700">Available Teachers</h2>
+                        <div className='flex justify-between bg-gray-200 rounded-md p-2'>
+                            <h2 className="flex-1 mx-auto p-2 text-left text-lg text-cyan-700 font-semibold">Available Teachers</h2>
                         </div>
                         <div className="overflow-x-auto">
                             <Table hoverable>
@@ -120,9 +126,11 @@ export default function ManageTeachers() {
                                                 {teacher.phoneNo}
                                             </Table.Cell>
                                             <Table.Cell className="text-black">
-                                            <a href="#" className="font-medium text-red-600 hover:underline dark:text-cyan-500">View</a>
+                                            <Link to={`/teacher/${teacher._id}`}>
+                                            <a href="#" className="font-medium text-cyan-700 hover:underline hover:text-red-600">View</a>
+                                            </Link>
                                             </Table.Cell>
-                                            <Table.Cell>
+                                            <Table.Cell onClick={handleTeacherDelete}>
                                                 <a href="#" className="font-medium text-red-600 hover:underline dark:text-cyan-500">
                                                     <IoTrashOutline/>
                                                 </a>
@@ -134,7 +142,7 @@ export default function ManageTeachers() {
                         </div>
                         <div className="bg-white p-3">
                             <hr />
-                            <Label className='text-red-600' gradientDuoTone="pinkToOrange" outline>Show More </Label>
+                            <Label className='text-cyan-700' gradientDuoTone="pinkToOrange" outline>Show More </Label>
                             <div className="w-10/12 mx-auto mt-3">
                             </div>
                             {loading &&
@@ -151,20 +159,20 @@ export default function ManageTeachers() {
                 </div>
                 {/* options div */}
                 <div className='bg-gray-100 p-4 rounded-md shadow-sm shadow-gray-400'>
-                    <div className='bg-gray-800 p-4 rounded-md'>
+                    <div className='bg-cyan-700 p-4 rounded-md'>
                         <FaUsers className='text-center text-2xl text-white mx-auto'/>
                         <h1 className='text-xl font-semibold text-white'>Total Teachers</h1>
                         <p className='text-sm text-white font-semibold'>{teachersCount}</p>
                         </div>
-                    <div className='bg-gray-800 p-4 rounded-md mt-4'>
+                    <div className='bg-cyan-700 p-4 rounded-md mt-4'>
                         <TiMessages className='text-center text-2xl text-white mx-auto'/>
                         <Link to="/teachersSquare">
-                        <Button className='text-xs w-full mt-2' gradientDuoTone="pinkToOrange">Send Message</Button>
+                        <Button className='text-xs w-full mt-2' outline>Send Message</Button>
                         </Link>
                         </div>
-                    <div className='bg-gray-800 p-4 rounded-md mt-4'>
+                    <div className='bg-cyan-700 p-4 rounded-md mt-4'>
                         <h1 className='text-2xl font-semibold text-center text-white'>+</h1>
-                        <Button className='text-xs w-full mt-2' gradientDuoTone="pinkToOrange" onClick={() =>setOpenModal(true)}>Add New Teacher</Button>
+                        <Button className='text-xs w-full mt-2' outline onClick={() =>setOpenModal(true)}>Add New Teacher</Button>
                     </div>
                 </div>
             </div>
@@ -174,9 +182,12 @@ export default function ManageTeachers() {
                 <Modal.Header>Add New Teacher</Modal.Header>
             <Modal.Body>
             <div className="w-full">
-            <div className="w-full md:w-10/12 mx-auto bg-gray-800 mt-4 p-3 rounded-md ">
+            <h2 className='text-center text-sm text-cyan-700'>Inputs with * are must be filled!</h2>
+            <div className="w-full md:w-10/12 mx-auto mt-4 p-3 rounded-md  text-black">
             <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-                <Label value="Full Name" id="teacherName" className="text-white"/>
+                <div className='flex flex-row gap-6 w-full'>
+                <div className='flex-1'>
+                <Label value="Full Name*" id="teacherName" className=""/>
                 <TextInput 
                 placeholder="Enter Full Name"
                 type="text"
@@ -185,7 +196,7 @@ export default function ManageTeachers() {
                 required
                 />
 
-                <Label value="email" id="teacherEmail" className="text-white"/>
+                <Label value="Email*" id="teacherEmail" className=""/>
                 <TextInput 
                 placeholder="Enter Email Address"
                 type="email"
@@ -194,7 +205,7 @@ export default function ManageTeachers() {
                 required
                 />
 
-                <Label value="phone number" id="teacherPhone" className="text-white"/>
+                <Label value="Phone Number*" id="teacherPhone" className=""/>
                 <TextInput 
                 placeholder="Enter Phone No:"
                 type="text"
@@ -202,7 +213,104 @@ export default function ManageTeachers() {
                 id='phoneNo'
                 required
                 />
-                <Button className="w-full mt-4" type='submit' disabled={isloading} gradientDuoTone="pinkToOrange" outline>
+
+                <Label value="Place Of Birth" id="placeOfBirth" className=""/>
+                <TextInput 
+                placeholder="Enter Place of Birth"
+                type="text"
+                onChange={handleChange}
+                id='placeOfBirth'
+                />
+
+                <Label value="National Id" id="nationalId" className=""/>
+                <TextInput 
+                placeholder="12345678"
+                type="number"
+                onChange={handleChange}
+                id='nationalId'
+                />
+
+                <Label value="Box Office" id="boxOffice" className=""/>
+                <TextInput 
+                placeholder="Enter Box Office"
+                type="text"
+                onChange={handleChange}
+                id='boxOffice'
+                />
+
+                <Label value="Marital Status" id="maritalStatus" className=""/>
+                <TextInput 
+                placeholder="Single"
+                type="text"
+                onChange={handleChange}
+                id='maritalStatus'
+                />
+                </div>
+
+                <div className='flex-1'>
+                <Label value="Title*" id="title" className=""/>
+                <TextInput 
+                placeholder="Mr/Mrs"
+                type="text"
+                onChange={handleChange}
+                id='title'
+                required
+                />
+
+                <Label value="Sex" id="sex" className=""/>
+                <TextInput 
+                placeholder="Male/Female"
+                type="text"
+                onChange={handleChange}
+                id='sex'
+                />
+
+                <Label value="Nationality*" id="nationality" className=""/>
+                <TextInput 
+                placeholder="Kenya"
+                type="text"
+                onChange={handleChange}
+                id='nationality'
+                required
+                />
+
+                <Label value="Role*" id="Role" className=""/>
+                <TextInput 
+                placeholder="Class Teacher/Staff"
+                type="text"
+                onChange={handleChange}
+                id='Role'
+                required
+                />
+
+                <Label value="Class In Charge" id="classInCharge" className=""/>
+                <TextInput 
+                placeholder="1M"
+                type="text"
+                onChange={handleChange}
+                id='classInCharge'
+                />
+
+                <Label value="Employer*" id="Employer" className=""/>
+                <TextInput 
+                placeholder="TSC/BOM"
+                type="text"
+                onChange={handleChange}
+                id='Employer'
+                required
+                />
+
+                <Label value="Religion" id="religion" className=""/>
+                <TextInput 
+                placeholder="Christian/Muslim/Hindu"
+                type="text"
+                onChange={handleChange}
+                id='religion'
+                />
+                </div>
+                </div>
+                <div>
+                <Button className="w-full mt-4" type='submit' disabled={isloading} outline>
                     {
                         isloading ?
                         <>
@@ -223,12 +331,13 @@ export default function ManageTeachers() {
                         New Teacher Added Successfuly!
                     </Alert>
                 }
+                </div>
             </form>
             </div>
         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button gradientDuoTone="pinkToOrange" onClick={()=>setOpenModal(false)}>Cancel</Button>
+                        <Button onClick={()=>setOpenModal(false)}>Cancel</Button>
                     </Modal.Footer>
                 </Modal>
             </div>

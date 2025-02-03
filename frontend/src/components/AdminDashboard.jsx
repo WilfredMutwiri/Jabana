@@ -2,7 +2,7 @@ import React from 'react'
 import { IoMdClose } from "react-icons/io";
 import { GrUserWorker } from "react-icons/gr";
 import { FaUsers } from "react-icons/fa";
-import profilePic from '../images/userprofile.jpg'
+import logo from '../assets/schoolLogo.webp'
 import { FaDatabase } from "react-icons/fa6";
 import { GiLovers } from "react-icons/gi";
 import { useSelector,useDispatch } from 'react-redux';
@@ -67,46 +67,43 @@ export default function AdminDashboard() {
             <section>
                 <div className="block md:flex w-[95%] m-auto mt-10 gap-5 md:gap-10">
                     {/* left section */}
-                <div className={`flex flex-col justify-between -mt-7 bg-gray-900 rounded-md shadow-sm shadow-pink-500 w-auto mb-5 md:mb-0 ${menuVisible ? 'block':'hidden'} h-auto`}>
+                <div className={`flex flex-col justify-between -mt-7 bg-cyan-700 rounded-md shadow-sm shadow-pink-500 w-auto mb-5 md:mb-0 ${menuVisible ? 'block':'hidden'} h-auto`}>
                     <div className='p-4'>
                     <div className=''>
-                        <img className='w-24 rounded-full mx-auto' src={profilePic} alt="profilePic"/>
+                        <img className='w-24 rounded-full mx-auto' src={logo} alt="profilePic"/>
                     </div>
-                    <h2 className='text-center text-white text-lg p-3'>Admin <span className='text-pink-500'>@ {
-                    currentUser ? currentUser.userName:'Mark'}</span></h2>
-                    <Button className='w-full mt-2' gradientDuoTone="pinkToOrange">Profile</Button>
+                    <h2 className='text-center text-white p-3'>Destinykers High School</h2>
+                    <div>
+                        <p className='text-center text-sm italic text-white'>Learn To Inspire</p>
                     </div>
-                    <div className='p-4 border-t-4 bg-gray-800'>
+                    </div>
+                    <div className='p-4 border-t-4 bg-cyan-700'>
                         <ul className='flex flex-col gap-5 text-center'>
-                            <li onClick={()=>showSection('dashboard')} className='p-2 hover:bg-gray-100 rounded-md text-orange-500 hover:text-pink-500 cursor-pointer flex          gap-3'><span><FaDatabase className="text-xl"/></span>Dashboard</li>
+                            <li onClick={()=>showSection('dashboard')} className='p-2 hover:bg-gray-100 rounded-md text-white hover:text-pink-500 cursor-pointer flex          gap-3'><span><FaDatabase className="text-xl"/></span>Dashboard</li>
 
                             <Link to="/ManageTeachers">
-                            <li className='p-2 hover:bg-gray-100 rounded-md text-orange-500 hover:text-pink-500 cursor-pointer flex gap-3'><span><FaUsers className="text-xl"/></span>Manage Teachers</li>
+                            <li className='p-2 hover:bg-gray-100 rounded-md text-white hover:text-pink-500 cursor-pointer flex gap-3'><span><FaUsers className="text-xl"/></span>Manage Teachers</li>
                             </Link>
 
                             <Link to="/manageParents">
-                            <li className='p-2 hover:bg-gray-100 rounded-md text-orange-500 hover:text-pink-500 cursor-pointer flex gap-3'><span><FaUsers className="text-xl"/></span>Manage Parents</li>
+                            <li className='p-2 hover:bg-gray-100 rounded-md text-white hover:text-pink-500 cursor-pointer flex gap-3'><span><FaUsers className="text-xl"/></span>Manage Parents</li>
                             </Link>
                             
                             <Link to="/manageWorkers">
-                            <li className='p-2 hover:bg-gray-100 rounded-md text-orange-500 hover:text-pink-500 cursor-pointer flex gap-3'><span><FaUsers className="text-xl"/></span>Manage Workers</li>
+                            <li className='p-2 hover:bg-gray-100 rounded-md text-white hover:text-pink-500 cursor-pointer flex gap-3'><span><FaUsers className="text-xl"/></span>Manage Workers</li>
                             </Link>
 
                             <Link to="/manageStudents">
-                            <li className='p-2 hover:bg-gray-100 rounded-md text-orange-500 hover:text-pink-500 cursor-pointer flex gap-3'><span><FaUsers className="text-xl"/></span>Manage Students</li>
+                            <li className='p-2 hover:bg-gray-100 rounded-md text-white hover:text-pink-500 cursor-pointer flex gap-3'><span><FaUsers className="text-xl"/></span>Manage Students</li>
                             </Link>
                         </ul>
-                        <Button className="w-full mt-4" gradientDuoTone="pinkToOrange" outline onClick={handleSignout}>Exit</Button>
+                        <Button className="w-full mt-4" outline onClick={handleSignout}>Exit</Button>
                     </div>
                     <IoMdClose className="text-center mt-4 mx-auto block md:hidden" onClick={handleCloseMenu}/>
                 </div>
 
                 {/* right section */}
                 <div className=" flex-1">
-                    <div className="flex">
-                    <img src={SchoolLogo} alt="School Logo" className="h-28 w-28"/>
-                    <h2 className="text-2xl font-serif text-yellow-500 my-auto -mx-3">Destinykers Girls High School</h2>
-                    </div>
                     <div className=''>
                     {/* dashboard */}
                     <div className={visibleSection==='dashboard'?'':'hidden'}>

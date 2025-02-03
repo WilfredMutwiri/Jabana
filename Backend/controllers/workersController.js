@@ -2,7 +2,22 @@ const Worker=require('../models/workersModel');
 // const {errorHandler}=require('../utils/errorHandler');
 
 const addWorker=async(req,res,next)=>{
-    const {fullName,email,phoneNo,Department,workerId}=req.body;
+    const {
+        fullName,
+        email,
+        phoneNo,
+        Department,
+        title,
+        sex,
+        nationality,
+        placeOfBirth,
+        nationalId,
+        boxOffice,
+        maritalStatus,
+        religion,
+        status,
+        workerId
+    }=req.body;
     if(
         !fullName||
         !email||
@@ -30,6 +45,15 @@ const addWorker=async(req,res,next)=>{
             email,
             phoneNo,
             Department,
+            title,
+            sex,
+            nationality,
+            placeOfBirth,
+            nationalId,
+            boxOffice,
+            maritalStatus,
+            religion,
+            status,
             workerId
         })
         await newWorker.save()
@@ -50,7 +74,7 @@ const getWorkers=async(req,res,next)=>{
         
     }
 }
-
+// get workers number
 const workersCount=async(req,res)=>{
     try {
         const totalWorkers=await Worker.countDocuments();
@@ -60,8 +84,23 @@ const workersCount=async(req,res)=>{
     }
 }
 
+//get a single worker data
+const getWorkerInfo=async(req,res)=>{
+    try {
+        const worker=await Worker.findById(req.params.id);
+        if(!worker){
+            return res.status(404).json({message:"Worker not found"});
+        }else{
+            res.json(worker);
+        }
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+};
+
 module.exports={
     addWorker,
     getWorkers,
-    workersCount
+    workersCount,
+    getWorkerInfo
 }

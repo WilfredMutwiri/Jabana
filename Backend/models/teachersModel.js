@@ -14,6 +14,39 @@ const teacherSchema=new mongoose.Schema({
         type:String,
         required:true,
         unique:true
+    },
+    sex:{
+        type:String
+    },
+    placeOfBirth:{
+        type:String
+    },
+    nationalId:{
+        type:String
+    },
+    title:{
+        type:String
+    },
+    nationality:{
+        type:String
+    },
+    boxOffice:{
+        type:String
+    },
+    maritalStatus:{
+        type:String
+    },
+    religion:{
+        type:String
+    },
+    Role:{
+        type:String
+    },
+    classInCharge:{
+        type:String
+    },
+    Employer:{
+        type:String
     }
 },{timestamps:true});
 

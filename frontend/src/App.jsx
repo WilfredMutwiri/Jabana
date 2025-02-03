@@ -12,6 +12,8 @@ import ManageWorkers from "./components/Manage_Database/ManageWorkers"
 import TeachersSquare from "./components/Messages/TeachersSquare"
 import ManageStudents from "./components/Manage_Database/ManageStudents"
 import About from "./components/About"
+import TeacherDetails from "./components/DynamicData/TeacherDetails"
+import WorkerDetails from "./components/DynamicData/WorkerDetails"
 function App() {
   return (
     <>
@@ -29,6 +31,10 @@ function App() {
         <Route path="/manageStudents" element={<ManageStudents/>}/>
         <Route path="/teachersSquare" element={<TeachersSquare/>}/>
         <Route path="/about" element={<About/>}/>
+
+        {/* dynamic routes */}
+        <Route path="/teacher/:id" element={<TeacherDetails/>}/>
+        <Route path="/worker/:id" element={<WorkerDetails/>}/>
       </Routes>
       <Footer/>
     </Router>

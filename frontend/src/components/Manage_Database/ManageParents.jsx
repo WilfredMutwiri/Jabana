@@ -88,8 +88,8 @@ export default function ManageParents() {
                 <div className="flex-1 gap-4 mt-4">
                     {/* Teachers div */}
                     <div className={`bg-gray-200 p-1 rounded-md overflow-hidden ${showAll?"h-[500px]":"h-auto"}`}>
-                        <div className='flex justify-between bg-gray-300 rounded-md p-2'>
-                            <h2 className="flex-1 mx-auto p-2 text-left text-lg text-pink-700">Available Parents</h2>
+                        <div className='flex justify-between bg-gray-200 rounded-md p-2'>
+                            <h2 className="flex-1 mx-auto p-2 text-left text-lg text-cyan-700">Available Parents</h2>
                         </div>
                         <div className="overflow-x-auto">
                             <Table hoverable>
@@ -119,7 +119,7 @@ export default function ManageParents() {
                                                 {parent.studentAdmNo}
                                             </Table.Cell>
                                             <Table.Cell className="text-black">
-                                            <a href="#" className="font-medium text-red-600 hover:underline dark:text-cyan-500">View</a>
+                                            <a href="#" className="font-medium text-cyan-700 hover:text-red-600 hover:underline">View</a>
                                             </Table.Cell>
                                             <Table.Cell>
                                                 <a href="#" className="font-medium text-red-600 hover:underline dark:text-cyan-500">
@@ -151,18 +151,18 @@ export default function ManageParents() {
 
                  {/* options div */}
                                     <div className='bg-gray-100 p-4 rounded-md shadow-sm shadow-gray-400'>
-                                        <div className='bg-gray-800 p-4 rounded-md'>
+                                        <div className='bg-cyan-700 p-4 rounded-md'>
                                             <FaUsers className='text-center text-2xl text-white mx-auto'/>
                                             <h1 className='text-xl font-semibold text-white'>Total Parents</h1>
                                             <p className='text-sm text-white font-semibold'>{parentsCount}</p>
                                         </div>
-                                        <div className='bg-gray-800 p-4 rounded-md mt-4'>
+                                        <div className='bg-cyan-700 p-4 rounded-md mt-4'>
                                             <TiMessages className='text-center text-2xl text-white mx-auto'/>
-                                            <Button className='text-xs w-full mt-2' gradientDuoTone="pinkToOrange" onClick={() =>setOpenModal(true)}>Send Message</Button>
+                                            <Button className='text-xs w-full mt-2' outline onClick={() =>setOpenModal(true)}>Send Message</Button>
                                         </div>
-                                        <div className='bg-gray-800 p-4 rounded-md mt-4'>
+                                        <div className='bg-cyan-700 p-4 rounded-md mt-4'>
                                             <h1 className='text-2xl font-semibold text-center text-white'>+</h1>
-                                            <Button className='text-xs w-full mt-2' gradientDuoTone="pinkToOrange" onClick={() =>setOpenModal(true)}>Add New Parent</Button>
+                                            <Button className='text-xs w-full mt-2' outline onClick={() =>setOpenModal(true)}>Add New Parent</Button>
                                         </div>
                                     </div>
 
