@@ -1,8 +1,21 @@
 const Student=require('../models/studentModel');
-// const {errorHandler}=require('../utils/errorHandler');
 
 const addStudent=async(req,res)=>{
-    const {studentName,parentEmail,parentPhoneNo,studentAdmNo,studentClass,parentName}=req.body;
+    const {
+        studentName,
+        parentEmail,
+        parentPhoneNo,
+        studentAdmNo,
+        studentClass,
+        parentName,
+        parentNationalId,
+        parentTitle,
+        placeOfBirth,
+        religion,
+        nationality,
+        status,
+        parentBoxOffice
+    }=req.body;
     if(
         !studentName||
         !parentEmail ||
@@ -10,11 +23,26 @@ const addStudent=async(req,res)=>{
         !studentAdmNo ||
         !studentClass ||
         !parentName ||
+        !parentNationalId ||
+        !parentTitle ||
+        !placeOfBirth ||
+        !religion ||
+        !nationality ||
+        !status ||
+        !parentBoxOffice ||
         studentName===""||
         parentEmail===""||
         parentPhoneNo==="" ||
         studentClass==="" ||
-        !studentAdmNo===""
+        studentAdmNo===""||
+        parentName===""||
+        parentNationalId===""||
+        parentTitle===""||
+        placeOfBirth===""||
+        religion===""||
+        nationality===""||
+        status==="",
+        parentBoxOffice===""
     ){
         console.log("Kindly fill all fields");
         return res.status(400).json({success:false, message:"All fields must be filed"})
@@ -32,7 +60,14 @@ const addStudent=async(req,res)=>{
             parentEmail,
             parentPhoneNo,
             studentAdmNo,
-            studentClass
+            studentClass,
+            parentNationalId,
+            parentTitle,
+            placeOfBirth,
+            religion,
+            nationality,
+            status,
+            parentBoxOffice
         })
         await newStudent.save()
         return res.status(200).json({success:true,message:"New Student Added Successfully"})
@@ -62,8 +97,37 @@ const getStudentsCount=async(req,res)=>{
     }
 }
 
+//get a single student data
+const getStudentInfo=async(req,res)=>{
+    try {
+        const student=await Student.findById(req.params.id);
+        if(!student){
+            return res.status(404).json({message:"Student not found"});
+        }else{
+            res.json(student);
+        }
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+};
+//delete a student
+const deleteStudent=async(req,res)=>{
+    try {
+        const student=await Student.findByIdAndDelete(req.params.id);
+        if(!student){
+            return res.status(404).json({message:"Student not found"});
+        }else{
+            res.json({message:"Student deleted Successfully!"});
+        }
+    } catch (error) {
+        res.status(500).json({message:error.message});
+    }
+}
+
 module.exports={
     addStudent,
     getStudents,
-    getStudentsCount
+    getStudentsCount,
+    getStudentInfo,
+    deleteStudent
 }

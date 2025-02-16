@@ -7,6 +7,7 @@ import { Alert, Button, Label, Spinner, TextInput,Table,Modal } from "flowbite-r
 import { addStudentFailure,addStudentStart,addStudentSuccess } from '../../../Redux/User/studentSlice';
 import Sidebar from '../Sidebar';
 import { FaUsers } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 
 export default function ManageStudents() {
@@ -57,8 +58,7 @@ export default function ManageStudents() {
         }
     }
 
-
-    //get studenst count
+    //get students count
     const getStudents=async()=>{
         const response=await fetch(`${SERVER_URL}/api/users/studentsCount`);
         const data=await response.json();
@@ -73,6 +73,18 @@ export default function ManageStudents() {
         getStudents();
     }, [dispatch]);
 
+            //delete student
+            const handleStudentDelete=async()=>{
+                const response=await fetch(`${SERVER_URL}/api/users/deleteStudent/${students._id}`,{
+                    method:"DELETE"
+                });
+                const data= await response.json();
+                if(response.ok){
+                    console.log("Student deleted ")
+                }else{
+                    console.log(data.error)
+                }
+            }    
     return (
         <div>
             <div className='flex justify-between gap-4 w-[95%]  mx-auto'>
@@ -113,12 +125,12 @@ export default function ManageStudents() {
                                                 {student.studentAdmNo}
                                             </Table.Cell>
                                             <Table.Cell className="text-black">
+                                                <Link to={`/student/${student._id}`}>
                                                 <a href="#" className="font-medium text-cyan-700 hover:underline hover:text-red-600">View</a>
+                                                </Link>
                                             </Table.Cell>
                                             <Table.Cell>
-                                                <a href="#" className="font-medium text-red-600 hover:underline dark:text-cyan-500">
-                                                    <IoTrashOutline/>
-                                                </a>
+                                                    <IoTrashOutline onClick={handleStudentDelete}className='text-red-600 cursor-pointer'/>
                                             </Table.Cell>
                                         </Table.Row>
                                     ))}

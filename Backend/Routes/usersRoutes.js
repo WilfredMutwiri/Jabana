@@ -3,7 +3,7 @@ const router=express.Router();
 const {addTeacher, getTeachers, getTeacherCount, getTeacherInfo, deleteTeacher}=require('../controllers/teachersController.js')
 const {addParent,getParents, getParentsCount}=require('../controllers/parentsController.js');
 const { addWorker, getWorkers, workersCount, getWorkerInfo } = require('../controllers/workersController.js');
-const { addStudent, getStudents, getStudentsCount } = require('../controllers/studentController.js');
+const { addStudent, getStudents, getStudentsCount, getStudentInfo, deleteStudent } = require('../controllers/studentController.js');
 const { addSubject, getSubjects } = require('../controllers/subjectsController.js');
 
 router.post('/addTeacher',addTeacher);
@@ -24,6 +24,8 @@ router.get('/worker/:id',getWorkerInfo);
 router.post('/addStudent',addStudent);
 router.get('/getStudents',getStudents);
 router.get('/studentsCount',getStudentsCount);
+router.get('/student/:id',getStudentInfo);
+router.delete('/deleteStudent/:id',deleteStudent);
 
 //subjects
 router.post('/addSubject',addSubject);

@@ -29,6 +29,37 @@ const studentSchema=new mongoose.Schema({
         type:String,
         required:true,
         unique:false
+    },
+    parentNationalId:{
+        type:Number,
+        required:true,
+        unique:true
+    },
+    parentTitle:{
+        type:String,
+        required:true,
+    },
+    placeOfBirth:{
+        type:String,
+        required:true,
+    },
+    religion:{
+        type:String,
+        required:true,
+    },
+    nationality:{
+        type:String,
+        required:true,
+    },
+    status:{
+        type:String,
+        required:true,
+        // required:false
+    },
+    parentBoxOffice:{
+        type:String,
+        required:true,
+        // required:false
     }
 },{timestamps:true});
 
